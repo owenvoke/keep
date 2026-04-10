@@ -42,7 +42,7 @@
                     <flux:text size="lg" variant="strong">{{ __('Coordinates') }}</flux:text>
                 </dt>
                 <dd>
-                    <flux:link :href="$this->keep->coordinates->link()">
+                    <flux:link :href="$this->keep->coordinates->link()" external>
                         <flux:text>{{ $this->keep->coordinates }}</flux:text>
                     </flux:link>
                 </dd>
@@ -87,7 +87,7 @@
                     <dd>
                         <ul>
                             @foreach($this->keep->alternative_names as $alternativeName)
-                                <li>{{ $alternativeName }}</li>
+                                <li><flux:text>{{ $alternativeName }}</flux:text></li>
                             @endforeach
                         </ul>
                     </dd>
