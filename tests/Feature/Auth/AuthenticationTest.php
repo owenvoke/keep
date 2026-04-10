@@ -21,7 +21,7 @@ test('users can authenticate using the login screen', function () {
 
     $response
         ->assertSessionHasNoErrors()
-        ->assertRedirect(route('dashboard', absolute: false));
+        ->assertRedirect(route('keep.index', absolute: false));
 
     $this->assertAuthenticated();
 });
@@ -63,7 +63,7 @@ test('users can logout', function () {
 
     $response = $this->actingAs($user)->post(route('logout'));
 
-    $response->assertRedirect(route('home'));
+    $response->assertRedirect(route('keep.index'));
 
     $this->assertGuest();
 });
