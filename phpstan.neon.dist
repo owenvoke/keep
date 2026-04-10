@@ -1,0 +1,16 @@
+includes:
+  - vendor/larastan/larastan/extension.neon
+  - vendor/canvural/larastan-strict-rules/rules.neon
+  - phpstan-baseline.neon
+
+parameters:
+  level: 8
+  paths:
+    - app
+    - routes
+
+  larastanStrictRules:
+    allRules: false
+    noDynamicWhere: true
+    noPropertyAccessor: true
+    noValidationInController: true

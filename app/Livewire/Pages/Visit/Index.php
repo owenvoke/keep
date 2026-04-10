@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Livewire\Pages\Visit;
 
 use App\Models\Visit;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
@@ -16,20 +18,20 @@ class Index extends Component
     use WithPagination;
 
     #[Url]
-    public $sortBy = 'name';
+    public string $sortBy = 'name';
 
     #[Url]
-    public $sortDirection = 'asc';
+    public string $sortDirection = 'asc';
 
     #[Url]
-    public $search = '';
+    public string $search = '';
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.visit.index');
     }
 
-    public function sort($column)
+    public function sort(string $column): void
     {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -39,8 +41,9 @@ class Index extends Component
         }
     }
 
+    /** @return LengthAwarePaginator<int, Visit> */
     #[Computed]
-    public function visits()
+    public function visits(): LengthAwarePaginator
     {
         return Visit::query()
             ->tap(fn (Builder $query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)

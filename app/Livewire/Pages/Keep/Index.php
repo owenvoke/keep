@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Livewire\Pages\Keep;
 
+use App\Enums\Region;
 use App\Models\Keep;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,29 +19,29 @@ class Index extends Component
     use WithPagination;
 
     #[Url]
-    public $sortBy = 'name';
+    public string $sortBy = 'name';
 
     #[Url]
-    public $sortDirection = 'asc';
+    public string $sortDirection = 'asc';
 
     #[Url]
-    public $search = '';
+    public string $search = '';
 
     #[Url]
-    public $region = '';
+    public Region|null $region = null;
 
     #[Url]
-    public $ownedBy = '';
+    public string $ownedBy = '';
 
-    #[Url, Validate('boolean')]
-    public $onlyVisited = false;
+    #[Url]
+    public bool $onlyVisited = false;
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.keep.index');
     }
 
-    public function sort($column)
+    public function sort(string $column): void
     {
         if ($this->sortBy === $column) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -49,8 +51,9 @@ class Index extends Component
         }
     }
 
+    /** @return LengthAwarePaginator<int, Keep> */
     #[Computed]
-    public function keeps()
+    public function keeps(): LengthAwarePaginator
     {
         return Keep::query()
             ->tap(fn (Builder $query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)

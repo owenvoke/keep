@@ -7,14 +7,15 @@ use App\Livewire\Pages\Keep\Show as KeepShow;
 use App\Livewire\Pages\Visit\Index as VisitIndex;
 use App\Livewire\Pages\Visit\Manage as VisitManage;
 use App\Livewire\Pages\Visit\Show as VisitShow;
-use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Router;
 
-Route::middleware(['auth'])->group(function () {
-    Route::livewire('/', KeepIndex::class)->name('keep.index');
-    Route::livewire('/keeps/{keep}', KeepShow::class)->name('keep.show');
-    Route::livewire('/keeps/{keep}/visit/{visit?}', VisitManage::class)->name('visit.manage');
-    Route::livewire('/visits', VisitIndex::class)->name('visit.index');
-    Route::livewire('/visits/{visit}', VisitShow::class)->name('visit.show');
+/** @var Router $router */
+$router->middleware(['auth'])->group(function (Router $router) {
+    $router->livewire('/', KeepIndex::class)->name('keep.index');
+    $router->livewire('/keeps/{keep}', KeepShow::class)->name('keep.show');
+    $router->livewire('/keeps/{keep}/visit/{visit?}', VisitManage::class)->name('visit.manage');
+    $router->livewire('/visits', VisitIndex::class)->name('visit.index');
+    $router->livewire('/visits/{visit}', VisitShow::class)->name('visit.show');
 
     require __DIR__.'/settings.php';
 });

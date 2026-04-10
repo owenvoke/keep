@@ -7,6 +7,7 @@ namespace App\Livewire\Pages\Visit;
 use App\Models\Keep;
 use App\Models\Visit;
 use Flux\Flux;
+use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -16,24 +17,26 @@ class Manage extends Component
 
     public Visit|null $visit = null;
 
+    /** @var string */
     public $comment = '';
 
+    /** @var string|null */
     #[Validate('date_format:Y-m-d\TH:i')]
     #[Validate('before_or_equal:today')]
     public $visited = null;
 
     public function mount(): void
     {
-        $this->comment = $this->visit?->comment ?? '';
+        $this->comment = $this->visit->comment ?? '';
         $this->visited = $this->visit?->visited_at->isoFormat('YYYY-MM-DDTHH:mm');
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.pages.visit.manage');
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 

@@ -13,7 +13,9 @@
         "spatie/laravel-data": "^4.21"
     },
     "require-dev": {
+        "canvural/larastan-strict-rules": "^3.0",
         "fakerphp/faker": "^1.24",
+        "larastan/larastan": "^3.9",
         "laravel/pail": "^1.2.5",
         "laravel/pint": "^1.27",
         "laravel/sail": "^1.53",
@@ -47,20 +49,15 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
-        "lint": [
-            "pint --parallel"
-        ],
-        "lint:check": [
-            "pint --parallel --test"
-        ],
-        "ci:check": [
-            "Composer\\Config::disableProcessTimeout",
-            "@test"
-        ],
+        "lint": "pint --parallel --ansi",
+        "test:lint": "pint --parallel --test --ansi",
+        "test:types": "phpstan analyse --ansi --memory-limit=-1",
+        "test:unit": "pest -p --colors=always",
         "test": [
             "@php artisan config:clear --ansi",
-            "@lint:check",
-            "@php artisan test"
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",

@@ -10,6 +10,7 @@ use Spatie\LaravelData\Data;
 
 class KeepEntry extends Data
 {
+    /** @param list<string> $alternativeNames */
     public function __construct(
         public string $id,
         public string $name,
