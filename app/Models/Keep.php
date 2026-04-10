@@ -7,6 +7,7 @@ namespace App\Models;
 use App\DataObjects\Coordinates;
 use App\Enums\Region;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -60,5 +61,29 @@ class Keep extends Model
     public function visits(): HasMany
     {
         return $this->hasMany(Visit::class);
+    }
+
+    public function nearestTo(int $distance): Builder
+    {
+        return Keep::query()
+            ->where('keeps.uuid', '!=', $this->uuid)
+            ->select()
+            ->selectRaw("ROUND(
+                ? * ACOS(
+                    COS(RADIANS(?))
+                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.lat')))
+                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.lng')) - RADIANS(?))
+                    + SIN(RADIANS(?))
+                    * SIN(RADIANS(JSON_EXTRACT(coordinates, '$.lat')))
+                ), 2
+            ) AS distance", [
+                6371, // Radius of Earth in kilometers
+                $this->coordinates->latitude,
+                $this->coordinates->longitude,
+                $this->coordinates->latitude,
+            ])
+            ->groupBy('distance')
+            ->having('distance', '<=', $distance)
+            ->orderBy('distance');
     }
 }

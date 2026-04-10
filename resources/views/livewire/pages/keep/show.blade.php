@@ -128,7 +128,8 @@
             <livewire:map
                 class="w-full h-100 rounded-md"
                 :label="$this->keep->name"
-                :coordinates="$this->keep->coordinates"/>
+                :keep="$this->keep"
+                :additionalKeeps="$this->keep->nearestTo(50)->limit(5)->get()"/>
         </div>
     </flux:modal>
 
