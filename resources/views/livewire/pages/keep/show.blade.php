@@ -7,7 +7,8 @@
     <div class="flex flex-auto flex-row justify-end mb-6">
         @if(auth()->user()->hasVisited($keep))
             <div class="flex flex-col justify-center mr-2">
-                <flux:text color="green" class="align-middle" :title="__('You have already registered a visit to this keep.')">
+                <flux:text color="green" class="align-middle"
+                           :title="__('You have already registered a visit to this keep.')">
                     <flux:icon.check-circle/>
                 </flux:text>
             </div>
@@ -43,8 +44,11 @@
                 </dt>
                 <dd>
                     <flux:link :href="$this->keep->coordinates->link()" external>
-                        <flux:text>{{ $this->keep->coordinates }}</flux:text>
+                        <flux:text inline>{{ $this->keep->coordinates }}</flux:text>
                     </flux:link>
+                    <flux:modal.trigger name="map-modal" shortcut="cmd.m">
+                        <flux:icon.map class="ml-1 inline-block cursor-pointer"></flux:icon.map>
+                    </flux:modal.trigger>
                 </dd>
             </div>
             <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
@@ -87,7 +91,9 @@
                     <dd>
                         <ul>
                             @foreach($this->keep->alternative_names as $alternativeName)
-                                <li><flux:text>{{ $alternativeName }}</flux:text></li>
+                                <li>
+                                    <flux:text>{{ $alternativeName }}</flux:text>
+                                </li>
                             @endforeach
                         </ul>
                     </dd>
@@ -116,6 +122,15 @@
             </flux:callout>
         @endif
     </div>
+
+    <flux:modal name="map-modal" class="w-lg" variant="floating">
+        <div class="mt-8">
+            <livewire:map
+                class="w-full h-100 rounded-md"
+                :label="$this->keep->name"
+                :coordinates="$this->keep->coordinates"/>
+        </div>
+    </flux:modal>
 
     @if($this->keep->visits->isNotEmpty())
         <flux:separator variant="subtle" class="my-6"/>

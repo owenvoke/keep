@@ -16,6 +16,10 @@ return [
     |
     */
 
+    'map' => [
+        'source' => env('MAP_SOURCE', 'https://tiles.openfreemap.org/styles/liberty'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],
