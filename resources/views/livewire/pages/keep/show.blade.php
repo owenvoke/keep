@@ -29,17 +29,17 @@
 
     <div class="flex flex-auto">
         <dl>
-            <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+            <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text size="lg" variant="strong">{{ __('Region') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Region') }}</flux:text>
                 </dt>
                 <dd>
                     <flux:text>{{ __($this->keep->region->label()) }}</flux:text>
                 </dd>
             </div>
-            <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+            <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text size="lg" variant="strong">{{ __('Coordinates') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Coordinates') }}</flux:text>
                 </dt>
                 <dd>
                     <flux:link :href="$this->keep->coordinates->link()" external>
@@ -47,42 +47,42 @@
                     </flux:link>
                 </dd>
             </div>
-            <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+            <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text size="lg" variant="strong">{{ __('Built') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Built') }}</flux:text>
                 </dt>
                 <dd>
                     <flux:text>{{ $this->keep->built }}</flux:text>
                 </dd>
             </div>
-            <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+            <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text size="lg" variant="strong">{{ __('Condition') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Condition') }}</flux:text>
                 </dt>
                 <dd>
                     <flux:text>{{ $this->keep->condition }}</flux:text>
                 </dd>
             </div>
-            <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+            <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text size="lg" variant="strong">{{ __('Owner') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Owner') }}</flux:text>
                 </dt>
                 <dd>
                     <flux:text>{{ $this->keep->owned_by }}</flux:text>
                 </dd>
             </div>
-            <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+            <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text size="lg" variant="strong">{{ __('Type') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Type') }}</flux:text>
                 </dt>
                 <dd>
                     <flux:text>{{ __($this->keep->type) }}</flux:text>
                 </dd>
             </div>
             @if($this->keep->alternative_names)
-                <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+                <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                     <dt>
-                        <flux:text size="lg" variant="strong">{{ __('Alternative Names') }}</flux:text>
+                        <flux:text variant="strong">{{ __('Alternative Names') }}</flux:text>
                     </dt>
                     <dd>
                         <ul>
@@ -94,33 +94,34 @@
                 </div>
             @endif
             @if($this->keep->homepage)
-                <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+                <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                     <dt>
-                        <flux:text size="lg" variant="strong">{{ __('Homepage') }}</flux:text>
+                        <flux:text variant="strong">{{ __('Homepage') }}</flux:text>
                     </dt>
                     <dd>
-                        <flux:link :href="$this->keep->homepage">{{ $this->keep->homepage }}</flux:link>
-                    </dd>
-                </div>
-            @endif
-            @if($this->keep->description)
-                <div class="px-4 py-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
-                    <dt>
-                        <flux:text size="lg" variant="strong">{{ __('Description') }}</flux:text>
-                    </dt>
-                    <dd>
-                        <flux:text>{{ $this->keep->description }}</flux:text>
+                        <flux:link :href="$this->keep->homepage" external>
+                            <flux:text>{{ __('External') }}</flux:text>
+                        </flux:link>
                     </dd>
                 </div>
             @endif
         </dl>
     </div>
 
+    <div>
+        @if($this->keep->description)
+            <flux:callout>
+                <flux:callout.heading>{{ __('Description') }}</flux:callout.heading>
+                <flux:callout.text>{{ $this->keep->description }}</flux:callout.text>
+            </flux:callout>
+        @endif
+    </div>
+
     @if($this->keep->visits->isNotEmpty())
         <flux:separator variant="subtle" class="my-6"/>
 
         <div>
-            <flux:heading size="lg" level="3" class="mb-4">{{ __('Visits') }}</flux:heading>
+            <flux:heading level="3" class="mb-4">{{ __('Visits') }}</flux:heading>
 
             @foreach($this->keep->visits as $visit)
                 <div class="p-3 sm:p-4 rounded-lg">
