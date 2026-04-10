@@ -8,13 +8,19 @@
 
     <flux:container class="flex flex-auto space-x-4 space-y-4 mb-4">
         <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
-        <flux:select wire:model.live="region" :placeholder="__('Choose region...')">
+        <flux:select class="mb-4" wire:model.live="region" :placeholder="__('Choose region...')">
             <flux:select.option value="" :selected="$this->region === ''">{{ __('Any') }}</flux:select.option>
             @foreach(App\Enums\Region::cases() as $region)
                 <flux:select.option :value="$region->value">{{ __($region->label()) }}</flux:select.option>
             @endforeach
         </flux:select>
         <flux:input class="mb-4" wire:model.live="ownedBy" :placeholder="__('Owned by...')" icon="magnifying-glass"/>
+        <div class="flex flex-auto flex-col justify-center">
+            <flux:field class="mb-4" variant="inline">
+                <flux:checkbox wire:model.live="onlyVisited" />
+                <flux:label>{{ __('Visited') }}</flux:label>
+            </flux:field>
+        </div>
     </flux:container>
 
     <flux:table :paginate="$this->keeps">

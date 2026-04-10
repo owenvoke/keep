@@ -8,6 +8,7 @@ use App\Models\Keep;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -29,6 +30,9 @@ class Index extends Component
 
     #[Url]
     public $ownedBy = '';
+
+    #[Url, Validate('boolean')]
+    public $onlyVisited = false;
 
     public function render()
     {
@@ -53,6 +57,7 @@ class Index extends Component
             ->tap(fn (Builder $query) => $this->search ? $query->whereLike('name', "%{$this->search}%") : $query)
             ->tap(fn (Builder $query) => $this->region ? $query->where('region', $this->region) : $query)
             ->tap(fn (Builder $query) => $this->ownedBy ? $query->whereLike('owned_by', "%{$this->ownedBy}%") : $query)
+            ->tap(fn (Builder $query) => $this->onlyVisited ? $query->whereHas('visits', fn (Builder $query) => $query->where('user_id', auth()->id())) : $query)
             ->paginate(50);
     }
 }
