@@ -134,7 +134,7 @@
                             <flux:text size="sm" variant="subtle">visited</flux:text>
                             <flux:text size="sm">
                                 <time datetime="{{ $visit->visited_at->toIso8601String() }}"
-                                      title="{{ $visit->visited_at->isoFormat('dddd, MMMM Do YYYY, h:mm') }}">
+                                      title="{{ $visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">
                                     {{ $visit->visited_at->diffForHumans() }}
                                 </time>
                             </flux:text>

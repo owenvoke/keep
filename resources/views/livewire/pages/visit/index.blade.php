@@ -30,7 +30,7 @@
                             href="{{ route('visit.show', $visit->uuid) }}">{{ $visit->keep->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <time datetime="{{ $visit->visited_at->toIso8601String() }}" title="{{ $visit->visited_at->isoFormat('dddd, MMMM Do YYYY, h:mm') }}">{{ $visit->visited_at->diffForHumans() }}</time>
+                        <time datetime="{{ $visit->visited_at->toIso8601String() }}" title="{{ $visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->visited_at->diffForHumans() }}</time>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <flux:text>{{ Illuminate\Support\Str::limit($visit->comment) }}</flux:text>
@@ -39,7 +39,7 @@
                         <flux:text>{{ $visit->user->name }}</flux:text>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <time datetime="{{ $visit->updated_at->toIso8601String() }}" title="{{ $visit->updated_at->isoFormat('dddd, MMMM Do YYYY, h:mm') }}">{{ $visit->updated_at->diffForHumans() }}</time>
+                        <time datetime="{{ $visit->updated_at->toIso8601String() }}" title="{{ $visit->updated_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->updated_at->diffForHumans() }}</time>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach

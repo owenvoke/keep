@@ -4,7 +4,7 @@
         <flux:heading size="md" level="2" class="mb-6 font-mono flex items-center gap-2"
                       title="{{ $this->visit->visited_at->diffForHumans() }}">
             <time datetime="{{ $this->visit->visited_at->toIso8601String() }}">
-                {{ $this->visit->visited_at->isoFormat('dddd, MMMM Do YYYY, h:mm') }}
+                {{ $this->visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}
             </time>
         </flux:heading>
         <flux:separator variant="subtle"/>
