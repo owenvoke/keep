@@ -31,6 +31,8 @@ use Illuminate\Support\Uri;
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
  * @property-read Collection<int, Visit> $visits
+ *
+ * @method Builder<self> nearestTo(Coordinates $coordinates, int $distance = 20)
  */
 class Keep extends Model
 {
@@ -63,10 +65,13 @@ class Keep extends Model
         return $this->hasMany(Visit::class);
     }
 
-    public function nearestTo(int $distance): Builder
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
+    public function scopeNearestTo(Builder $query, Coordinates $coordinates, int $distance = 20): Builder
     {
-        return Keep::query()
-            ->where('keeps.uuid', '!=', $this->uuid)
+        return $query
             ->select()
             ->selectRaw("ROUND(
                 ? * ACOS(
@@ -78,10 +83,11 @@ class Keep extends Model
                 ), 2
             ) AS distance", [
                 6371, // Radius of Earth in kilometers
-                $this->coordinates->latitude,
-                $this->coordinates->longitude,
-                $this->coordinates->latitude,
+                $coordinates->latitude,
+                $coordinates->longitude,
+                $coordinates->latitude,
             ])
+            ->where('distance', '!=', 0)
             ->groupBy('distance')
             ->having('distance', '<=', $distance)
             ->orderBy('distance');

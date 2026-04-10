@@ -129,7 +129,7 @@
                 class="w-full h-100 rounded-md"
                 :label="$this->keep->name"
                 :keep="$this->keep"
-                :additionalKeeps="$this->keep->nearestTo(50)->limit(5)->get()"/>
+                :additionalKeeps="$this->keep->nearestTo($this->keep->coordinates)->get()"/>
         </div>
     </flux:modal>
 
