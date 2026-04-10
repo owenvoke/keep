@@ -139,6 +139,9 @@
                                     {{ $visit->visited_at->diffForHumans() }}
                                 </time>
                             </flux:text>
+                            <flux:link :href="route('visit.show', ['visit' => $visit])">
+                                <flux:icon.link variant="micro"></flux:icon.link>
+                            </flux:link>
                         </div>
                     </div>
                     <div class="min-h-2 sm:min-h-1"></div>
