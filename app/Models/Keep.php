@@ -80,10 +80,10 @@ class Keep extends Model
             ->selectRaw("ROUND(
                 ? * ACOS(
                     COS(RADIANS(?))
-                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.lat')))
-                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.lng')) - RADIANS(?))
+                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.latitude')))
+                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.longitude')) - RADIANS(?))
                     + SIN(RADIANS(?))
-                    * SIN(RADIANS(JSON_EXTRACT(coordinates, '$.lat')))
+                    * SIN(RADIANS(JSON_EXTRACT(coordinates, '$.latitude')))
                 ), 2
             ) AS distance", [
                 6371, // Radius of Earth in kilometers
