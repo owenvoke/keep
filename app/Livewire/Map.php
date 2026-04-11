@@ -11,12 +11,15 @@ use Livewire\Component;
 
 class Map extends Component
 {
-    public Keep $keep;
+    /** @var Collection<int, Keep> */
+    public Collection $keeps;
+
+    public Keep|null $primaryKeep;
 
     public int $zoom = 10;
 
-    /** @var Collection<int, Keep> */
-    public Collection $additionalKeeps;
+    /** @var array{lat: float, lng: float}|null */
+    public array|null $center = null;
 
     public function render(): View
     {

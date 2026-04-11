@@ -14,6 +14,9 @@
                 <flux:sidebar.item icon="tag" :href="route('visit.index')" :current="request()->routeIs('visit.index')" wire:navigate>
                     {{ __('Visits') }}
                 </flux:sidebar.item>
+                <flux:sidebar.item icon="map" :href="route('map')" :current="request()->routeIs('map')" wire:navigate>
+                    {{ __('Map') }}
+                </flux:sidebar.item>
             </flux:sidebar.nav>
 
             <flux:spacer />

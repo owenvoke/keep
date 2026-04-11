@@ -32,7 +32,7 @@ use Illuminate\Support\Uri;
  * @property CarbonImmutable|null $updated_at
  * @property-read Collection<int, Visit> $visits
  *
- * @method Builder<self> nearestTo(Coordinates $coordinates, int $distance = 20)
+ * @method Builder<self> nearestTo(Coordinates $coordinates, int $distance = 25, int $limit = 50, bool $includeZero = false)
  */
 class Keep extends Model
 {
@@ -69,8 +69,12 @@ class Keep extends Model
      * @param  Builder<self>  $query
      * @return Builder<self>
      */
-    public function scopeNearestTo(Builder $query, Coordinates $coordinates, int $distance = 20): Builder
-    {
+    public function scopeNearestTo(
+        Builder $query,
+        Coordinates $coordinates,
+        int $distance = 25,
+        bool $includeZero = false
+    ): Builder {
         return $query
             ->select()
             ->selectRaw("ROUND(
@@ -87,7 +91,7 @@ class Keep extends Model
                 $coordinates->longitude,
                 $coordinates->latitude,
             ])
-            ->where('distance', '!=', 0)
+            ->when($includeZero === false, fn (Builder $query) => $query->where('distance', '!=', 0))
             ->groupBy('distance')
             ->having('distance', '<=', $distance)
             ->orderBy('distance');
