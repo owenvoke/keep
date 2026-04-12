@@ -13,7 +13,7 @@
                 </flux:text>
             </div>
         @endif
-        <flux:link :href="route('visit.manage', ['keep' => $this->keep])">
+        <flux:link :href="route('visit.manage', ['keep' => $this->keep])" wire:navigate>
             <flux:button variant="outline">{{ __('Register visit') }}</flux:button>
         </flux:link>
     </div>
@@ -155,7 +155,7 @@
                                     {{ $visit->visited_at->diffForHumans() }}
                                 </time>
                             </flux:text>
-                            <flux:link :href="route('visit.show', ['visit' => $visit])">
+                            <flux:link :href="route('visit.show', ['visit' => $visit])" wire:navigate>
                                 <flux:icon.link variant="micro"></flux:icon.link>
                             </flux:link>
                         </div>

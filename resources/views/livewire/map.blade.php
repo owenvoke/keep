@@ -12,39 +12,37 @@
         };
     @endphp
 
-    @push('scripts')
-        @once
-            <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
-            <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet'/>
-        @endonce
+    @once
+        <script data-navigate-once src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+        <link data-navigate-once href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet'/>
+    @endonce
 
-        <script defer>
-            const {{ $id }} = new maplibregl.Map({
-                container: '{{ $id }}',
-                style: '{{ config('services.map.source') }}',
-                @isset($centerCoordinates)
-                center: {{ json_encode($centerCoordinates) }},
-                @endisset
-                zoom: {{ $zoom }},
-                attributionControl: false,
-            })
-
-            @isset($this->primaryKeep)
-            new maplibregl.Marker().setLngLat(
-                [{{ $this->primaryKeep->coordinates->longitude }}, {{ $this->primaryKeep->coordinates->latitude }}]).
-                setPopup(new maplibregl.Popup().setText('{{ $this->primaryKeep->name }}')).
-                addTo({{ $id }})
+    <script defer>
+        const {{ $id }} = new maplibregl.Map({
+            container: '{{ $id }}',
+            style: '{{ config('services.map.source') }}',
+            @isset($centerCoordinates)
+            center: {{ json_encode($centerCoordinates) }},
             @endisset
+            zoom: {{ $zoom }},
+            attributionControl: false,
+        })
 
-            @isset($this->keeps)
-            @foreach($this->keeps as $keep)
-            new maplibregl.Marker({ color: '{{ auth()->user()->hasVisited($keep) ? 'green' : '#bbb' }}' }).setLngLat(
-                [{{ $keep->coordinates->longitude }}, {{ $keep->coordinates->latitude }}]).
-                setPopup(new maplibregl.Popup().setHTML(
-                    '<a href="{{ route('keep.show', ['keep' => $keep]) }}">{{ $keep->name }}</a>')).
-                addTo({{ $id }})
-            @endforeach
-            @endisset
-        </script>
-    @endpush
+        @isset($this->primaryKeep)
+        new maplibregl.Marker().setLngLat(
+            [{{ $this->primaryKeep->coordinates->longitude }}, {{ $this->primaryKeep->coordinates->latitude }}]).
+            setPopup(new maplibregl.Popup().setText('{{ $this->primaryKeep->name }}')).
+            addTo({{ $id }})
+        @endisset
+
+        @isset($this->keeps)
+        @foreach($this->keeps as $keep)
+        new maplibregl.Marker({ color: '{{ auth()->user()->hasVisited($keep) ? 'green' : '#bbb' }}' }).setLngLat(
+            [{{ $keep->coordinates->longitude }}, {{ $keep->coordinates->latitude }}]).
+            setPopup(new maplibregl.Popup().setHTML(
+                '<a href="{{ route('keep.show', ['keep' => $keep]) }}">{{ $keep->name }}</a>')).
+            addTo({{ $id }})
+        @endforeach
+        @endisset
+    </script>
 </div>
