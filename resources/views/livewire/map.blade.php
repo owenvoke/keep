@@ -17,6 +17,7 @@
         <link data-navigate-once href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet'/>
     @endonce
 
+    @script
     <script defer>
         const {{ $id }} = new maplibregl.Map({
             container: '{{ $id }}',
@@ -26,6 +27,13 @@
             @endisset
             zoom: {{ $zoom }},
             attributionControl: false,
+        })
+
+        let {{ $id }}_Locator = new maplibregl.GeolocateControl()
+        {{ $id }}.addControl({{ $id }}_Locator)
+
+        {{ $id }}_Locator.on('geolocate', (event) => {
+            $wire.dispatch('map-geolocated', [event.coords.latitude, event.coords.longitude])
         })
 
         @isset($this->primaryKeep)
@@ -45,4 +53,5 @@
         @endforeach
         @endisset
     </script>
+    @endscript
 </div>

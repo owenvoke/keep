@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Js;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -69,5 +70,14 @@ class Show extends Component
         return <<<'JS'
             window.location.reload();
         JS;
+    }
+
+    #[On('map-geolocated')]
+    public function handleMapGeoLocated(float $latitude, float $longitude): void
+    {
+        $this->fill([
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+        ]);
     }
 }

@@ -41,6 +41,8 @@ class Manage extends Component
         $this->validate();
 
         if ($this->visit) {
+            $this->authorize('update', $this->visit);
+
             $this->visit->update([
                 'comment' => $this->comment,
                 'visited_at' => $this->visited,
