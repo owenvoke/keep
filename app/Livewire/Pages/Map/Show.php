@@ -16,11 +16,11 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    #[Url, Validate('numeric')]
-    public float $latitude = 51.50811;
+    #[Url, Validate('nullable'), Validate('numeric')]
+    public float|null $latitude = null;
 
-    #[Url, Validate('numeric')]
-    public float $longitude = -0.07594;
+    #[Url, Validate('nullable'), Validate('numeric')]
+    public float|null $longitude = null;
 
     #[Url, Validate('int'), Validate('in:10,25,50,100')]
     public int $distance = 50;
@@ -31,9 +31,17 @@ class Show extends Component
     }
 
     #[Computed]
-    public function coordinates(): Coordinates
+    public function coordinates(): Coordinates|null
     {
-        return new Coordinates($this->latitude, $this->longitude);
+        if (isset($this->latitude, $this->longitude)) {
+            return new Coordinates($this->latitude, $this->longitude);
+        }
+
+        if ($coordinates = auth()->user()?->home_coordinates) {
+            return new Coordinates($coordinates->latitude, $coordinates->longitude);
+        }
+
+        return null;
     }
 
     /** @return EloquentCollection<int, Keep> */
@@ -42,8 +50,14 @@ class Show extends Component
     {
         $this->validate();
 
+        $coordinates = $this->coordinates();
+
+        if ($coordinates === null) {
+            return EloquentCollection::make();
+        }
+
         return Keep::nearestTo(
-            coordinates: $this->coordinates(),
+            coordinates: $coordinates,
             distance: $this->distance,
             includeZero: true
         )->get();

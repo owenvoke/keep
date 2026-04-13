@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataObjects;
 
+use Geotools\Coordinate\Coordinate as GeotoolsCoordinate;
 use Spatie\LaravelData\Data;
 
 class Coordinates extends Data
@@ -12,6 +13,17 @@ class Coordinates extends Data
         public float $latitude,
         public float $longitude,
     ) {}
+
+    public static function fromString(string|null $coordinates): self|null
+    {
+        if ($coordinates === null || $coordinates === '') {
+            return null;
+        }
+
+        $coordinates = new GeotoolsCoordinate($coordinates);
+
+        return new self($coordinates->getLatitude(), $coordinates->getLongitude());
+    }
 
     public function __toString(): string
     {
