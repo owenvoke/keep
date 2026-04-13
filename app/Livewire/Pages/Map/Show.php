@@ -56,8 +56,8 @@ class Show extends Component
         )->get();
     }
 
-    #[On('map-geolocated')]
-    public function handleMapGeoLocated(float $latitude, float $longitude): void
+    #[On('location:updated')]
+    public function handleLocationUpdated(float $latitude, float $longitude): void
     {
         $this->location = "{$latitude}, {$longitude}";
     }

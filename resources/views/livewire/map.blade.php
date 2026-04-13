@@ -49,8 +49,12 @@
             map.addControl(locator)
 
             locator.on('geolocate', (event) => {
-                $wire.dispatch('map-geolocated', [event.coords.latitude, event.coords.longitude])
+                $wire.dispatch('location:updated', [event.coords.latitude, event.coords.longitude])
             })
+
+            map.on('click', (event) => {
+                $wire.dispatch('location:updated', [event.lngLat.lat, event.lngLat.lng])
+            });
 
             @isset($this->primaryKeep)
             new maplibregl.Marker().setLngLat(
