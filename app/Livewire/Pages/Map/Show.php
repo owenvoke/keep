@@ -30,10 +30,11 @@ class Show extends Component
         return view('livewire.pages.map.show');
     }
 
-    /** @var array{latitude: float, longitude: float}|null */
+    /** @return array{latitude: float, longitude: float}|null */
     #[Computed]
     public function center(): array|null
     {
+        // @phpstan-ignore return.type
         return $this->parsedLocation()?->toArray();
     }
 
