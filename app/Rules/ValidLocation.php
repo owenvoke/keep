@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Rules;
 
+use App\DataObjects\Coordinates;
 use Closure;
-use Geotools\Coordinate\Coordinate;
 use Geotools\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
 
-readonly class ValidCoordinatesFormat implements ValidationRule
+readonly class ValidLocation implements ValidationRule
 {
     /** @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         try {
-            new Coordinate($value);
+            Coordinates::fromString($value);
         } catch (InvalidArgumentException) {
             $fail('The :attribute must be a valid coordinate format.')->translate();
         }

@@ -7,20 +7,16 @@
     </div>
 
     <flux:container class="flex flex-auto space-x-4 space-y-4 mb-4">
-        <flux:input wire:model="latitude" :placeholder="__('Latitude')" />
-        <flux:input wire:model="longitude" :placeholder="__('Longitude')" />
-        <flux:select class="w-min" wire:model="distance" :placeholder="__('Distance')">
+        <flux:input wire:model.live.debounce.500ms="location" :placeholder="__('Location')" />
+        <flux:select class="w-min" wire:model.live.debounce="distance" :placeholder="__('Distance')">
             <flux:select.option value="10">{{ __('10 km') }}</flux:select.option>
             <flux:select.option value="25">{{ __('25 km') }}</flux:select.option>
             <flux:select.option value="50">{{ __('50 km') }}</flux:select.option>
             <flux:select.option value="100">{{ __('100 km') }}</flux:select.option>
         </flux:select>
-        <flux:button class="w-min cursor-pointer" wire:click.debounce="$commit && $wire.reload()">
-            <flux:icon.magnifying-glass />
-        </flux:button>
     </flux:container>
 
     <flux:container>
-        <livewire:map class="w-full max-w-dvw h-dvh max-h-[60vh] xl:max-h-[70vh] mb-2 rounded-xl" :keeps="$this->keeps" zoom="8" :center="$this->coordinates->toArray()"/>
+        <livewire:map class="w-full max-w-dvw h-dvh max-h-[60vh] xl:max-h-[70vh] mb-2 rounded-xl" :keeps="$this->keeps" zoom="8" :center="$this->center"/>
     </flux:container>
 </div>

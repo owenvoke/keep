@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire\Settings;
 
 use App\DataObjects\Coordinates;
-use App\Rules\ValidCoordinatesFormat;
+use App\Rules\ValidLocation;
 use Flux\Flux;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Title;
@@ -15,7 +15,7 @@ use Livewire\Component;
 #[Title('Home coordinates')]
 class HomeCoordinates extends Component
 {
-    #[Validate(new ValidCoordinatesFormat)]
+    #[Validate(new ValidLocation)]
     public string|null $coordinates = null;
 
     public function mount(): void
