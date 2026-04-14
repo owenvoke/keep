@@ -21,11 +21,6 @@
 >
     <div wire:ignore id="{{ $id }}_canvas" class="h-full w-full"></div>
 
-    @once
-        <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
-        <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet'/>
-    @endonce
-
     @script
     <script defer>
         const mapElement = document.getElementById('{{ $id }}')
