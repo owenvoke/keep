@@ -9,13 +9,7 @@
     };
 
     $keepMarkers = $this->keeps->isNotEmpty()
-        ? $this->keeps->map(fn (App\Models\Keep $keep) => [
-            'longitude' => $keep->coordinates->longitude,
-            'latitude' => $keep->coordinates->latitude,
-            'name' => $keep->name,
-            'url' => route('keep.show', ['keep' => $keep]),
-            'color' => auth()->user()->hasVisited($keep) ? 'green' : '#bbb',
-        ])->values()->all()
+        ? $this->keeps->map(fn (App\Models\Keep $keep) => $keep->toJsonMarker())->values()->all()
         : [];
 @endphp
 
@@ -28,12 +22,12 @@
     <div wire:ignore id="{{ $id }}_canvas" class="h-full w-full"></div>
 
     @once
-        <script data-navigate-once src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
-        <link data-navigate-once href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet'/>
+        <script src='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js'></script>
+        <link href='https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css' rel='stylesheet'/>
     @endonce
 
     @script
-    <script>
+    <script defer>
         const mapElement = document.getElementById('{{ $id }}')
 
         if (! mapElement.__keepMap) {
@@ -52,6 +46,30 @@
                 $wire.dispatch('location:updated', [event.coords.latitude, event.coords.longitude])
             })
 
+            const createMarkerInfo = (marker, includeLink = false) => {
+                const info = document.createElement('div')
+
+                const name = includeLink ? document.createElement('a') : document.createElement('p')
+                if (includeLink) {
+                    name.href = marker.url
+                }
+                name.className = 'font-semibold'
+                name.textContent = marker.name
+
+                const built = document.createElement('p')
+                built.innerHTML = `<span class="font-medium">Built:</span> ${marker.built}`
+
+                const type = document.createElement('p')
+                type.innerHTML = `<span class="font-medium">Type:</span> ${marker.type}`
+
+                const condition = document.createElement('p')
+                condition.innerHTML = `<span class="font-medium">Condition:</span> ${marker.condition}`
+
+                info.append(name, built, type, condition)
+
+                return info
+            }
+
             map.on('click', (event) => {
                 if (event.type === 'contextmenu') {
                     $wire.dispatch('location:updated', [event.lngLat.lat, event.lngLat.lng])
@@ -62,7 +80,7 @@
             new maplibregl.Marker().setLngLat(
                 [{{ $this->primaryKeep->coordinates->longitude }}, {{ $this->primaryKeep->coordinates->latitude }}]
             ).setPopup(
-                new maplibregl.Popup().setText(@js($this->primaryKeep->name))
+                new maplibregl.Popup({closeButton: false}).setDOMContent(createMarkerInfo(@js($this->primaryKeep->toJsonMarker())))
             ).addTo(map)
             @endisset
 
@@ -82,13 +100,9 @@
                 setKeepMarkers(markers) {
                     this.keepMarkers.forEach((marker) => marker.remove())
                     this.keepMarkers = markers.map((marker) => {
-                        const link = document.createElement('a')
-                        link.href = marker.url
-                        link.textContent = marker.name
-
                         return new maplibregl.Marker({ color: marker.color })
                             .setLngLat([marker.longitude, marker.latitude])
-                            .setPopup(new maplibregl.Popup().setDOMContent(link))
+                            .setPopup(new maplibregl.Popup({closeButton: false}).setDOMContent(createMarkerInfo(marker, true)))
                             .addTo(this.map)
                     })
                 }

@@ -96,4 +96,28 @@ class Keep extends Model
             ->having('distance', '<=', $distance)
             ->orderBy('distance');
     }
+
+    public function visitedBy(User $user): bool
+    {
+        return $this->visits()->where('user_id', $user->id)->exists();
+    }
+
+    /** @return array<string, mixed> */
+    public function toJsonMarker(): array
+    {
+        $user = auth()->user();
+
+        assert($user !== null);
+
+        return [
+            'longitude' => $this->coordinates->longitude,
+            'latitude' => $this->coordinates->latitude,
+            'name' => $this->name,
+            'built' => $this->built,
+            'type' => $this->type,
+            'condition' => $this->condition,
+            'url' => route('keep.show', ['keep' => $this]),
+            'color' => $this->visitedBy($user) ? 'green' : '#bbb',
+        ];
+    }
 }
