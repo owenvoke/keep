@@ -8,7 +8,7 @@
 
     <flux:container class="flex flex-auto space-x-4 space-y-4 mb-4">
         <flux:input wire:model.live.debounce.500ms="location" :placeholder="__('Location')" />
-        <flux:select class="w-min" wire:model.live.debounce="distance" :placeholder="__('Distance')">
+        <flux:select class="w-min" wire:model.live.debounce="distance">
             <flux:select.option value="10">{{ __('10 km') }}</flux:select.option>
             <flux:select.option value="25">{{ __('25 km') }}</flux:select.option>
             <flux:select.option value="50">{{ __('50 km') }}</flux:select.option>

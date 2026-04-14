@@ -137,7 +137,11 @@
         <flux:separator variant="subtle" class="my-6"/>
 
         <div>
-            <flux:heading level="3" class="mb-4">{{ __('Visits') }}</flux:heading>
+            <flux:heading size="lg" level="3" class="mb-4">{{ __('Visits') }}</flux:heading>
+
+            <flux:text variant="strong">
+                {{ trans_choice('This Keep has been visited :count time.|This Keep has been visited :count times.', $this->keep->visits->count()) }}
+            </flux:text>
 
             @foreach($this->keep->visits as $visit)
                 <div class="p-3 sm:p-4 rounded-lg">
