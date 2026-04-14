@@ -5,6 +5,11 @@
     </div>
 
     <div class="flex flex-auto flex-row justify-end mb-6">
+        <div class="flex flex-col justify-center mr-2">
+            <flux:badge size="sm" color="teal">
+                <span>{{ trans_choice(':count total visit|:count total visits', $this->keep->visits->count()) }}</span>
+            </flux:badge>
+        </div>
         @if(auth()->user()->hasVisited($keep))
             <div class="flex flex-col justify-center mr-2">
                 <flux:text color="green" class="align-middle"
@@ -138,10 +143,6 @@
 
         <div>
             <flux:heading size="lg" level="3" class="mb-4">{{ __('Visits') }}</flux:heading>
-
-            <flux:text variant="strong">
-                {{ trans_choice('This Keep has been visited :count time.|This Keep has been visited :count times.', $this->keep->visits->count()) }}
-            </flux:text>
 
             @foreach($this->keep->visits as $visit)
                 <div class="p-3 sm:p-4 rounded-lg">
