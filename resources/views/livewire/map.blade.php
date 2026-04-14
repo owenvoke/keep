@@ -42,6 +42,11 @@
             const locator = new maplibregl.GeolocateControl()
             map.addControl(locator)
 
+            const popupConfig = {
+                closeButton: false,
+                focusAfterOpen: false,
+            }
+
             locator.on('geolocate', (event) => {
                 $wire.dispatch('location:updated', [event.coords.latitude, event.coords.longitude])
             })
@@ -80,7 +85,7 @@
             new maplibregl.Marker().setLngLat(
                 [{{ $this->primaryKeep->coordinates->longitude }}, {{ $this->primaryKeep->coordinates->latitude }}]
             ).setPopup(
-                new maplibregl.Popup({closeButton: false}).setDOMContent(createMarkerInfo(@js($this->primaryKeep->toJsonMarker())))
+                new maplibregl.Popup(popupConfig).setDOMContent(createMarkerInfo(@js($this->primaryKeep->toJsonMarker())))
             ).addTo(map)
             @endisset
 
@@ -102,7 +107,7 @@
                     this.keepMarkers = markers.map((marker) => {
                         return new maplibregl.Marker({ color: marker.color })
                             .setLngLat([marker.longitude, marker.latitude])
-                            .setPopup(new maplibregl.Popup({closeButton: false}).setDOMContent(createMarkerInfo(marker, true)))
+                            .setPopup(new maplibregl.Popup(popupConfig).setDOMContent(createMarkerInfo(marker, true)))
                             .addTo(this.map)
                     })
                 }
