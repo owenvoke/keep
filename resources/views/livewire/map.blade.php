@@ -28,7 +28,7 @@
         if (! mapElement.__keepMap) {
             const map = new maplibregl.Map({
                 container: '{{ $id }}_canvas',
-                style: '{{ config('services.map.source') }}',
+                style: $flux.dark ? '{{ config('services.map.source.dark') }}' : '{{ config('services.map.source.light') }}',
                 center: @js($centerCoordinates),
                 zoom: {{ $zoom }},
                 attributionControl: false,
