@@ -17,9 +17,8 @@
     id="{{ $id }}"
     data-center='@json($this->center)'
     data-markers='@json($keepMarkers)'
-    {{ $attributes }}
 >
-    <div wire:ignore id="{{ $id }}_canvas" class="h-full w-full"></div>
+    <div wire:ignore id="{{ $id }}_canvas" {{ $attributes }}></div>
 
     @script
     <script defer>
