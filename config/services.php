@@ -17,7 +17,10 @@ return [
     */
 
     'map' => [
-        'source' => env('MAP_SOURCE', 'https://tiles.openfreemap.org/styles/liberty'),
+        'source' => [
+            'dark' => env('MAP_SOURCE_DARK', 'https://tiles.openfreemap.org/styles/dark'),
+            'light' => env('MAP_SOURCE_LIGHT', 'https://tiles.openfreemap.org/styles/liberty'),
+        ],
     ],
 
     'postmark' => [

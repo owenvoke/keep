@@ -17,9 +17,8 @@
     id="{{ $id }}"
     data-center='@json($this->center)'
     data-markers='@json($keepMarkers)'
-    {{ $attributes }}
 >
-    <div wire:ignore id="{{ $id }}_canvas" class="h-full w-full"></div>
+    <div wire:ignore id="{{ $id }}_canvas" {{ $attributes }}></div>
 
     @script
     <script defer>
@@ -28,7 +27,7 @@
         if (! mapElement.__keepMap) {
             const map = new maplibregl.Map({
                 container: '{{ $id }}_canvas',
-                style: '{{ config('services.map.source') }}',
+                style: $flux.dark ? '{{ config('services.map.source.dark') }}' : '{{ config('services.map.source.light') }}',
                 center: @js($centerCoordinates),
                 zoom: {{ $zoom }},
                 attributionControl: false,
