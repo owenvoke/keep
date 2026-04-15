@@ -1,0 +1,32 @@
+.maplibregl-popup.maplibregl-popup-anchor-bottom .maplibregl-popup-tip,
+.maplibregl-popup.maplibregl-popup-anchor-bottom-left .maplibregl-popup-tip,
+.maplibregl-popup.maplibregl-popup-anchor-bottom-right .maplibregl-popup-tip {
+    @apply border-t-gray-300;
+    @apply dark:border-t-gray-700;
+}
+
+.maplibregl-popup.maplibregl-popup-anchor-top .maplibregl-popup-tip,
+.maplibregl-popup.maplibregl-popup-anchor-top-left .maplibregl-popup-tip,
+.maplibregl-popup.maplibregl-popup-anchor-top-right .maplibregl-popup-tip {
+    @apply border-b-gray-300;
+    @apply dark:border-b-gray-700;
+}
+
+.maplibregl-popup.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+    @apply border-l-gray-300;
+    @apply dark:border-l-gray-700;
+}
+
+.maplibregl-popup.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+    @apply border-r-gray-300;
+    @apply dark:border-r-gray-700;
+}
+
+.maplibregl-popup .maplibregl-popup-content {
+    @apply rounded-md;
+    @apply p-2;
+    @apply inset-ring;
+    @apply inset-ring-gray-300;
+    @apply dark:inset-ring-gray-700;
+    @apply dark:bg-gray-900;
+}
