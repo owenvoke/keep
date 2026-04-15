@@ -22,7 +22,7 @@ class Manage extends Component
 
     /** @var string|null */
     #[Validate('date_format:Y-m-d\TH:i')]
-    #[Validate('before_or_equal:today')]
+    #[Validate('before_or_equal:now')]
     public $visited = null;
 
     public function mount(): void
