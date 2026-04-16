@@ -30,6 +30,7 @@ return [
         'use_pkce' => env('OIDC_USE_PKCE', false),
         'redirect' => '/auth/oidc/callback',
 
+        'disable_local_auth' => env('OIDC_DISABLE_LOCAL_AUTH', false),
         'name' => env('OIDC_NAME'),
     ],
 
