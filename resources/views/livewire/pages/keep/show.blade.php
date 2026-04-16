@@ -128,7 +128,7 @@
         @endif
     </div>
 
-    <flux:modal name="map-modal" class="w-lg" variant="floating">
+    <flux:modal name="map-modal" class="w-sm sm:w-md md:w-lg lg:w-xl" variant="floating">
         <div class="mt-8">
             <livewire:map
                 class="w-full h-100 rounded-md"
