@@ -23,6 +23,16 @@ return [
         ],
     ],
 
+    'oidc' => [
+        'base_url' => env('OIDC_BASE_URL'),
+        'client_id' => env('OIDC_CLIENT_ID'),
+        'client_secret' => env('OIDC_CLIENT_SECRET'),
+        'use_pkce' => env('OIDC_USE_PKCE', false),
+        'redirect' => '/auth/oidc/callback',
+
+        'name' => env('OIDC_NAME'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

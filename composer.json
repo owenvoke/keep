@@ -11,6 +11,7 @@
         "league/geotools": "^0.1.5",
         "livewire/flux": "^2.12.0",
         "livewire/livewire": "^4.1",
+        "socialiteproviders/manager": "^4.9",
         "spatie/laravel-data": "^4.21"
     },
     "require-dev": {

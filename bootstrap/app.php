@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Services\OIDC\Exceptions\OIDCConfigurationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -16,5 +17,5 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(fn (OIDCConfigurationException $exception) => redirect()->route('oidc.error'));
     })->create();

@@ -55,5 +55,15 @@
                 <flux:link :href="route('register')" wire:navigate>{{ __('Sign up') }}</flux:link>
             </div>
         @endif
+
+        @if(config('services.oidc.base_url'))
+            <flux:separator :text="__('Or')" />
+
+            <div class="space-x-1 text-sm text-center rtl:space-x-reverse text-zinc-600 dark:text-zinc-400">
+                <flux:link :href="route('oidc.redirect')">
+                    <flux:text>{{ __('Login with :name', ['name' => config('services.oidc.name') ?? 'OIDC']) }}</flux:text>
+                </flux:link>
+            </div>
+        @endif
     </div>
 </x-layouts::auth>
