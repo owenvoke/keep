@@ -7,6 +7,7 @@ namespace App\Models;
 use App\DataObjects\Coordinates;
 use Carbon\CarbonImmutable;
 use Database\Factories\UserFactory;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Features;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 /**
@@ -27,7 +29,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  */
 #[Fillable(['name', 'email', 'password', 'home_coordinates'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable, TwoFactorAuthenticatable;
@@ -60,5 +62,15 @@ class User extends Authenticatable
     public function hasVisited(Keep $keep): bool
     {
         return $this->visits()->where('keep_uuid', $keep->uuid)->exists();
+    }
+
+    /** {@inheritdoc} */
+    public function hasVerifiedEmail(): bool
+    {
+        if (! Features::enabled(Features::emailVerification())) {
+            return true;
+        }
+
+        return parent::hasVerifiedEmail();
     }
 }

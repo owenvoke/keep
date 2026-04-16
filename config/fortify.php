@@ -148,7 +148,7 @@ return [
     'features' => [
         ...(env('REGISTRATION_DISABLED', false) ? [] : [Features::registration()]),
         Features::resetPasswords(),
-        Features::emailVerification(),
+        ...(env('EMAIL_VERIFICATION_DISABLED', false) ? [] : [Features::emailVerification()]),
         Features::twoFactorAuthentication([
             'confirm' => true,
             'confirmPassword' => true,

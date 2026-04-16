@@ -73,7 +73,7 @@ parameters:
 			path: app/Livewire/Settings/Profile.php
 
 		-
-			message: '#^Instanceof between App\\Models\\User&Illuminate\\Contracts\\Auth\\MustVerifyEmail and Illuminate\\Contracts\\Auth\\MustVerifyEmail will always evaluate to true\.$#'
+			message: '#^Instanceof between App\\Models\\User and Illuminate\\Contracts\\Auth\\MustVerifyEmail will always evaluate to true\.$#'
 			identifier: instanceof.alwaysTrue
 			count: 1
 			path: app/Livewire/Settings/Profile.php

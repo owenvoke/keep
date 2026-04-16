@@ -11,7 +11,7 @@ use App\Livewire\Pages\Visit\Show as VisitShow;
 use Illuminate\Routing\Router;
 
 /** @var Router $router */
-$router->middleware(['auth'])->group(function (Router $router) {
+$router->middleware(['auth', 'verified'])->group(function (Router $router) {
     $router->livewire('/', KeepIndex::class)->name('keep.index');
     $router->livewire('/keeps/{keep}', KeepShow::class)->name('keep.show');
     $router->livewire('/keeps/{keep}/visit/{visit?}', VisitManage::class)->name('visit.manage');
