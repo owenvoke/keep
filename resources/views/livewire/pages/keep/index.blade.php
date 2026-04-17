@@ -43,9 +43,14 @@
             <flux:table.column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection"
                                wire:click="sort('name')">{{ __('Name') }}
             </flux:table.column>
+            <flux:table.column sortable :sorted="$sortBy === 'country'" :direction="$sortDirection"
+                               wire:click="sort('country')">{{ __('Country') }}
+            </flux:table.column>
+            @if($this->country?->regions())
             <flux:table.column sortable :sorted="$sortBy === 'region'" :direction="$sortDirection"
                                wire:click="sort('region')">{{ __('Region') }}
             </flux:table.column>
+            @endif
             <flux:table.column sortable :sorted="$sortBy === 'built'" :direction="$sortDirection"
                                wire:click="sort('built')">{{ __('Built') }}
             </flux:table.column>
@@ -69,7 +74,10 @@
                     <flux:table.cell class="flex items-center gap-3">
                         <flux:link href="{{ route('keep.show', $keep->uuid) }}">{{ $keep->name }}</flux:link>
                     </flux:table.cell>
+                    <flux:table.cell class="whitespace-nowrap">{{ __($keep->country->label()) }}</flux:table.cell>
+                    @if($this->country?->regions())
                     <flux:table.cell class="whitespace-nowrap">{{ __($keep->region->label()) }}</flux:table.cell>
+                    @endif
                     <flux:table.cell class="whitespace-nowrap">{{ $keep->built }}</flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <flux:link href="{{ $keep->coordinates->link() }}" external>{{ $keep->coordinates }}</flux:link>
