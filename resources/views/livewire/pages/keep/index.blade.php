@@ -13,8 +13,8 @@
             <flux:select class="mb-4 w-full" wire:model.live="country" wire:change="region = null">
                 <flux:select.option value=""
                                     :selected="$this->country === ''">{{ __('Any country') }}</flux:select.option>
-                @foreach(App\Enums\Country::cases() as $region)
-                    <flux:select.option :value="$region->value">{{ __($region->label()) }}</flux:select.option>
+                @foreach(App\Enums\Country::orderedCases() as $country)
+                    <flux:select.option :value="$country->value">{{ __($country->label()) }}</flux:select.option>
                 @endforeach
             </flux:select>
             <div class="flex flex-auto flex-row space-x-4">
@@ -47,9 +47,9 @@
                                wire:click="sort('country')">{{ __('Country') }}
             </flux:table.column>
             @if($this->country?->regions())
-            <flux:table.column sortable :sorted="$sortBy === 'region'" :direction="$sortDirection"
-                               wire:click="sort('region')">{{ __('Region') }}
-            </flux:table.column>
+                <flux:table.column sortable :sorted="$sortBy === 'region'" :direction="$sortDirection"
+                                   wire:click="sort('region')">{{ __('Region') }}
+                </flux:table.column>
             @endif
             <flux:table.column sortable :sorted="$sortBy === 'built'" :direction="$sortDirection"
                                wire:click="sort('built')">{{ __('Built') }}
@@ -76,7 +76,7 @@
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ __($keep->country->label()) }}</flux:table.cell>
                     @if($this->country?->regions())
-                    <flux:table.cell class="whitespace-nowrap">{{ __($keep->region->label()) }}</flux:table.cell>
+                        <flux:table.cell class="whitespace-nowrap">{{ __($keep->region->label()) }}</flux:table.cell>
                     @endif
                     <flux:table.cell class="whitespace-nowrap">{{ $keep->built }}</flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">

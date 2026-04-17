@@ -29,7 +29,7 @@ class Index extends Component
     public string $search = '';
 
     #[Url]
-    public Country|null $country = Country::GB;
+    public Country|null $country = null;
 
     #[Url]
     public Region|null $region = null;
@@ -37,8 +37,13 @@ class Index extends Component
     #[Url]
     public string $ownedBy = '';
 
-    #[Url]
+    #[Url(as: 'visited')]
     public bool $onlyVisited = false;
+
+    public function mount(): void
+    {
+        $this->country ??= auth()->user()->country ?? Country::GB;
+    }
 
     public function render(): View
     {

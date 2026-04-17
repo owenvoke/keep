@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use Illuminate\Support\Arr;
 use Symfony\Component\Intl\Countries;
 
 enum Country: string
@@ -267,5 +268,11 @@ enum Country: string
     public function regions(): array
     {
         return array_filter(Region::cases(), fn (Region $region) => str_starts_with($region->value, "{$this->value}-"));
+    }
+
+    /** @return array<int, self> */
+    public static function orderedCases(): array
+    {
+        return Arr::sort(self::cases(), fn (self $case) => $case->label(app()->getLocale()));
     }
 }

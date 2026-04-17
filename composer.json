@@ -1,7 +1,7 @@
 {
     "name": "owenvoke/keep",
     "type": "project",
-    "description": "An open-source tracker for UK castles and fortifications.",
+    "description": "An open-source tracker for castles and fortifications.",
     "license": "MIT",
     "require": {
         "php": "^8.4",
