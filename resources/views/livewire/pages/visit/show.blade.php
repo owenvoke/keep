@@ -13,7 +13,10 @@
     </div>
 
     @if($this->visit->user_id === auth()->id())
-        <div class="flex flex-auto flex-row justify-end mb-6">
+        <div class="flex flex-auto flex-row justify-end space-x-4 mb-6">
+            <flux:link :href="url()->signedRoute('visit.share', ['visit' => $this->visit])" wire:navigate>
+                <flux:button icon:leading="share" variant="outline">{{ __('Share') }}</flux:button>
+            </flux:link>
             <flux:link :href="route('visit.manage', ['keep' => $this->visit->keep, 'visit' => $this->visit])" wire:navigate>
                 <flux:button variant="primary">{{ __('Manage visit') }}</flux:button>
             </flux:link>

@@ -9,6 +9,7 @@ use App\Livewire\Pages\Map\Show as MapShow;
 use App\Livewire\Pages\OIDC\Error as OIDCError;
 use App\Livewire\Pages\Visit\Index as VisitIndex;
 use App\Livewire\Pages\Visit\Manage as VisitManage;
+use App\Livewire\Pages\Visit\Share as VisitShare;
 use App\Livewire\Pages\Visit\Show as VisitShow;
 use Illuminate\Routing\Router;
 
@@ -27,3 +28,5 @@ $router->middleware(['auth', 'verified'])->group(function (Router $router) {
 $router->get('/auth/oidc', [OIDCController::class, 'redirect'])->name('oidc.redirect');
 $router->get('/auth/oidc/callback', [OIDCController::class, 'callback'])->name('oidc.callback');
 $router->livewire('/auth/oidc/error', OIDCError::class)->name('oidc.error');
+
+$router->livewire('/visits/{visit}/share', VisitShare::class)->name('visit.share');
