@@ -4,8 +4,14 @@
         <flux:separator variant="subtle" />
     </div>
 
-    <flux:container class="flex flex-auto space-x-4 space-y-4 mb-4">
-        <flux:input wire:model.live="search" :placeholder="__('Search by Keep...')" icon="magnifying-glass" />
+    <flux:container class="flex flex-auto flex-wrap sm:flex-nowrap space-x-4 space-y-4 mb-4">
+        <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search by Keep...')" icon="magnifying-glass" />
+        <div class="flex flex-auto w-min flex-col justify-center">
+            <flux:field class="mb-4" variant="inline">
+                <flux:checkbox wire:model.live.debounce="allUsers" />
+                <flux:label class="text-nowrap">{{ __('All Users') }}</flux:label>
+            </flux:field>
+        </div>
     </flux:container>
 
     <flux:table :paginate="$this->visits">
@@ -42,7 +48,7 @@
                         <flux:text>{{ Illuminate\Support\Str::limit($visit->comment) }}</flux:text>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <flux:text>{{ $visit->user->name }}</flux:text>
+                        <flux:link class="cursor-pointer" wire:click="filterUserFromVisit('{{ $visit->uuid }}')">{{ $visit->user->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <time datetime="{{ $visit->updated_at->toIso8601String() }}" title="{{ $visit->updated_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->updated_at->diffForHumans() }}</time>
