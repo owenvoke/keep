@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Pages\Keep;
 
+use App\Enums\Country;
 use App\Enums\Region;
 use App\Models\Keep;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
@@ -26,6 +27,9 @@ class Index extends Component
 
     #[Url]
     public string $search = '';
+
+    #[Url]
+    public Country|null $country = Country::GB;
 
     #[Url]
     public Region|null $region = null;
@@ -58,6 +62,7 @@ class Index extends Component
         return Keep::query()
             ->tap(fn (Builder $query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->tap(fn (Builder $query) => $this->search ? $query->whereLike('name', "%{$this->search}%") : $query)
+            ->tap(fn (Builder $query) => $this->country ? $query->where('country', $this->country) : $query)
             ->tap(fn (Builder $query) => $this->region ? $query->where('region', $this->region) : $query)
             ->tap(fn (Builder $query) => $this->ownedBy ? $query->whereLike('owned_by', "%{$this->ownedBy}%") : $query)
             ->tap(fn (Builder $query) => $this->onlyVisited ? $query->whereHas('visits', fn (Builder $query) => $query->where('user_id', auth()->id())) : $query)
