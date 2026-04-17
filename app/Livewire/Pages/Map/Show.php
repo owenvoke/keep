@@ -25,6 +25,11 @@ class Show extends Component
 
     private Coordinates|null $homeCoordinates = null;
 
+    public function mount(): void
+    {
+        $this->location ??= $this->homeCoordinates?->__toString();
+    }
+
     public function render(): View
     {
         return view('livewire.pages.map.show');
@@ -67,6 +72,8 @@ class Show extends Component
     {
         $this->homeCoordinates ??= auth()->user()?->home_coordinates;
 
-        return Coordinates::fromString($this->location ?? $this->homeCoordinates?->__toString());
+        $location = $this->location ?? $this->homeCoordinates?->__toString();
+
+        return Coordinates::fromString($location);
     }
 }

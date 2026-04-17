@@ -6,9 +6,9 @@ namespace App\Rules;
 
 use App\DataObjects\Coordinates;
 use Closure;
-use Geotools\Exception\InvalidArgumentException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Translation\PotentiallyTranslatedString;
+use League\Geotools\Exception\InvalidArgumentException;
 
 readonly class ValidLocation implements ValidationRule
 {

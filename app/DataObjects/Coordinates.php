@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataObjects;
 
-use Geotools\Coordinate\Coordinate as GeotoolsCoordinate;
+use League\Geotools\Coordinate\Coordinate as GeotoolsCoordinate;
 use Spatie\LaravelData\Data;
 
 class Coordinates extends Data
@@ -22,7 +22,7 @@ class Coordinates extends Data
 
         $coordinates = new GeotoolsCoordinate($coordinates);
 
-        return new self($coordinates->getLatitude(), $coordinates->getLongitude());
+        return new self((float) $coordinates->getLatitude(), (float) $coordinates->getLongitude());
     }
 
     public function __toString(): string
