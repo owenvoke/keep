@@ -21,7 +21,7 @@ class SynchroniseJob implements ShouldQueue
     public function handle(HttpFactory $http): void
     {
         $response = $http
-            ->get('https://keep-data.voke.dev/data/gb.json')
+            ->get('https://keep-data.voke.dev/data/all.json')
             ->throw()
             ->json();
 
