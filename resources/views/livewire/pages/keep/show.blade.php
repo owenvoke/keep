@@ -37,12 +37,22 @@
         <dl>
             <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
-                    <flux:text variant="strong">{{ __('Region') }}</flux:text>
+                    <flux:text variant="strong">{{ __('Country') }}</flux:text>
                 </dt>
                 <dd>
-                    <flux:text>{{ __($this->keep->region->label()) }}</flux:text>
+                    <flux:text>{{ __($this->keep->country->label()) }}</flux:text>
                 </dd>
             </div>
+            @if($this->keep->region)
+                <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
+                    <dt>
+                        <flux:text variant="strong">{{ __('Region') }}</flux:text>
+                    </dt>
+                    <dd>
+                        <flux:text>{{ __($this->keep->region->label()) }}</flux:text>
+                    </dd>
+                </div>
+            @endif
             <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
                 <dt>
                     <flux:text variant="strong">{{ __('Coordinates') }}</flux:text>

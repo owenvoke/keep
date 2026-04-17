@@ -12,7 +12,8 @@
         "livewire/flux": "^2.12.0",
         "livewire/livewire": "^4.1",
         "socialiteproviders/manager": "^4.9",
-        "spatie/laravel-data": "^4.21"
+        "spatie/laravel-data": "^4.21",
+        "symfony/intl": "^8.0"
     },
     "require-dev": {
         "canvural/larastan-strict-rules": "^3.0",

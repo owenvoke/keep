@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\DataObjects\Coordinates;
+use App\Enums\Country;
 use App\Enums\Region;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,7 @@ use Illuminate\Support\Uri;
 /**
  * @property string $uuid
  * @property string $name
+ * @property Country $country
  * @property Region $region
  * @property Coordinates $coordinates
  * @property string $built
@@ -53,9 +55,10 @@ class Keep extends Model
         return [
             'accessible' => 'boolean',
             'alternative_names' => 'collection',
-            'region' => Region::class,
             'coordinates' => Coordinates::class,
+            'country' => Country::class,
             'homepage' => AsUri::class,
+            'region' => Region::class,
         ];
     }
 
