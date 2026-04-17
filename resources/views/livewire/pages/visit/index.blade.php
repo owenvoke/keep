@@ -10,6 +10,7 @@
 
     <flux:table :paginate="$this->visits">
         <flux:table.columns>
+            <flux:table.column class="w-0">{{ __('Visit') }}</flux:table.column>
             <flux:table.column>{{ __('Keep') }}</flux:table.column>
             <flux:table.column sortable :sorted="$sortBy === 'visited_at'" :direction="$sortDirection"
                                wire:click="sort('visited_at')">{{ __('Visited') }}
@@ -25,9 +26,14 @@
             @foreach ($this->visits as $visit)
                 @php /** @var App\Models\Visit $visit */ @endphp
                 <flux:table.row :key="$visit->uuid">
-                    <flux:table.cell class="flex items-center gap-3">
+                    <flux:table.cell class="w-min">
                         <flux:link
-                            href="{{ route('visit.show', $visit->uuid) }}">{{ $visit->keep->name }}</flux:link>
+                            title="{{ $visit->uuid }}"
+                            href="{{ route('visit.show', $visit->uuid) }}">{{ Illuminate\Support\Str::substr($visit->uuid, -12) }}</flux:link>
+                    </flux:table.cell>
+                    <flux:table.cell class="whitespace-nowrap">
+                        <flux:link
+                            href="{{ route('keep.show', $visit->keep->uuid) }}">{{ $visit->keep->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <time datetime="{{ $visit->visited_at->toIso8601String() }}" title="{{ $visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->visited_at->diffForHumans() }}</time>
