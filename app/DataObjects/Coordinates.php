@@ -32,6 +32,6 @@ class Coordinates extends Data
 
     public function link(): string
     {
-        return "https://www.google.com/maps/place/{$this->latitude},{$this->longitude}";
+        return route('map', ['location' => "{$this->latitude}, {$this->longitude}"]);
     }
 }
