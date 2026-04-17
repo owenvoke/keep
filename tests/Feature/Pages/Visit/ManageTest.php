@@ -55,7 +55,6 @@ test('visit manage prevents users from updating another users visit', function (
     $this->actingAs($user);
 
     Livewire::test(VisitManage::class, ['keep' => $visit->keep, 'visit' => $visit])
-        ->call('save')
         ->assertForbidden();
 });
 
@@ -69,4 +68,20 @@ test('visit manage validates that visited date is not in the future', function (
         ->set('visited', now()->addDay()->format('Y-m-d\TH:i'))
         ->call('save')
         ->assertHasErrors(['visited']);
+});
+
+test('visit manage can delete an existing visit', function () {
+    $user = User::factory()->create();
+    $visit = VisitFactory::new()->create([
+        'user_id' => $user->id,
+        'comment' => 'Old comment',
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(VisitManage::class, ['keep' => $visit->keep, 'visit' => $visit])
+        ->call('delete')
+        ->assertHasNoErrors();
+
+    $this->assertModelMissing($visit);
 });

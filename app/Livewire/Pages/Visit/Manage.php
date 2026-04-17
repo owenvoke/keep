@@ -29,6 +29,10 @@ class Manage extends Component
     {
         $this->comment = $this->visit->comment ?? '';
         $this->visited = $this->visit?->visited_at->isoFormat('YYYY-MM-DDTHH:mm');
+
+        if ($this->visit) {
+            $this->authorize('update', $this->visit);
+        }
     }
 
     public function render(): View
@@ -48,7 +52,7 @@ class Manage extends Component
                 'visited_at' => $this->visited,
             ]);
 
-            Flux::toast('Your visit has been saved.');
+            Flux::toast(__('Your visit has been saved.'));
 
             return;
         }
@@ -64,5 +68,22 @@ class Manage extends Component
             'keep' => $this->keep,
             'visit' => $visit,
         ]);
+    }
+
+    public function delete(): void
+    {
+        $this->validate();
+
+        if ($this->visit === null) {
+            return;
+        }
+
+        $this->authorize('update', $this->visit);
+
+        $this->visit->delete();
+
+        Flux::toast(__('Your visit has been deleted.'));
+
+        $this->redirectRoute('visit.index', navigate: true);
     }
 }

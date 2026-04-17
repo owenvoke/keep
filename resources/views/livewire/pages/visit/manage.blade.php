@@ -12,6 +12,36 @@
         <flux:separator variant="subtle"/>
     </div>
 
+    @if($this->visit)
+        <div class="flex flex-auto flex-row justify-end space-x-4 mb-6">
+            <div>
+                <flux:modal.trigger name="delete-visit">
+                    <flux:button variant="danger">{{ __('Delete') }}</flux:button>
+                </flux:modal.trigger>
+
+                <flux:modal name="delete-visit" class="min-w-88">
+                    <div class="space-y-6">
+                        <div>
+                            <flux:heading size="lg">{{ __('Delete visit?') }}</flux:heading>
+                            <flux:text class="mt-2">
+                                {{ __('You are about to delete this visit.') }}<br>
+                                {{ __('This action cannot be reversed.') }}
+                            </flux:text>
+                        </div>
+                        <div class="flex gap-2">
+                            <flux:spacer/>
+                            <flux:modal.close>
+                                <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                            </flux:modal.close>
+                            <flux:button type="submit" wire:click="delete"
+                                         variant="danger">{{ __('Delete visit') }}</flux:button>
+                        </div>
+                    </div>
+                </flux:modal>
+            </div>
+        </div>
+    @endif
+
     <div class="flex flex-auto flex-col gap-4">
         <flux:input
             icon="clock"

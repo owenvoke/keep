@@ -15,7 +15,7 @@
     @if($this->visit->user_id === auth()->id())
         <div class="flex flex-auto flex-row justify-end mb-6">
             <flux:link :href="route('visit.manage', ['keep' => $this->visit->keep, 'visit' => $this->visit])" wire:navigate>
-                <flux:button variant="outline">{{ __('Manage visit') }}</flux:button>
+                <flux:button variant="primary">{{ __('Manage visit') }}</flux:button>
             </flux:link>
         </div>
     @endif
