@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Database\Factories;
 
 use App\DataObjects\Coordinates;
-use App\Enums\Region;
+use App\Enums\Country;
 use App\Models\Keep;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -15,9 +15,15 @@ class KeepFactory extends Factory
     /** {@inheritdoc} */
     public function definition(): array
     {
+        /** @var Country $country */
+        $country = $this->faker->randomElement(Country::cases());
+
+        $regions = $country->regions();
+
         return [
             'name' => $this->faker->unique()->name(),
-            'region' => $this->faker->randomElement(Region::cases()),
+            'country' => $country,
+            'region' => $regions !== [] ? $this->faker->randomElement($regions) : null,
             'coordinates' => new Coordinates(
                 $this->faker->latitude(),
                 $this->faker->longitude(),

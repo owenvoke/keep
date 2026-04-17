@@ -20,7 +20,7 @@ use Illuminate\Support\Uri;
  * @property string $uuid
  * @property string $name
  * @property Country $country
- * @property Region $region
+ * @property Region|null $region
  * @property Coordinates $coordinates
  * @property string $built
  * @property string $condition
