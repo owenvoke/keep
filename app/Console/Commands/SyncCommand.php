@@ -17,6 +17,6 @@ class SyncCommand extends Command
     {
         SynchroniseJob::dispatchSync();
 
-        $this->info('Keep data has been synced.');
+        $this->components->info('Keep data has been synced.');
     }
 }
