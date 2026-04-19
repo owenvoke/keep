@@ -65,7 +65,8 @@ class Keep extends Model
     /** @return HasMany<Visit, $this> */
     public function visits(): HasMany
     {
-        return $this->hasMany(Visit::class);
+        return $this->hasMany(Visit::class)
+            ->orderByDesc('visited_at');
     }
 
     /**
