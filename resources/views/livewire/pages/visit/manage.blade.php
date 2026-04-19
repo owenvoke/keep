@@ -1,6 +1,8 @@
 <div>
     <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1" class="mb-6">{{ $this->keep->name }}</flux:heading>
+        <flux:heading size="xl" level="1" class="mb-6">
+            <flux:link :href="route('keep.show', ['keep' => $this->keep])" wire:navigate>{{ $this->keep->name }}</flux:link>
+        </flux:heading>
         @if($this->visit)
             <flux:heading size="md" level="2" class="mb-6 font-mono flex items-center gap-2"
                           title="{{ $this->visit->visited_at->diffForHumans() }}">
