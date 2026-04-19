@@ -154,7 +154,7 @@
         <div>
             <flux:heading size="lg" level="3" class="mb-4">{{ __('Visits') }}</flux:heading>
 
-            @foreach($this->keep->visits as $visit)
+            @foreach($this->keep->visits->orderByDesc('visited_at') as $visit)
                 <div class="p-3 sm:p-4 rounded-lg">
                     <div class="flex flex-row items-center gap-2">
                         <flux:avatar :name="$visit->user->name" :initials="$visit->user->initials()" size="xs"
