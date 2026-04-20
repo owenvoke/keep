@@ -18,11 +18,11 @@ class Manage extends Component
     public Visit|null $visit = null;
 
     /** @var string */
+    #[Validate('string')]
     public $comment = '';
 
     /** @var string|null */
-    #[Validate('date_format:Y-m-d\TH:i')]
-    #[Validate('before_or_equal:now')]
+    #[Validate('date_format:Y-m-d\TH:i'), Validate('before_or_equal:now')]
     public $visited = null;
 
     public function mount(): void
