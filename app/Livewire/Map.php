@@ -7,6 +7,7 @@ namespace App\Livewire;
 use App\Models\Keep;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Reactive;
 use Livewire\Component;
 
@@ -16,8 +17,10 @@ class Map extends Component
     #[Reactive]
     public Collection $keeps;
 
+    #[Locked]
     public Keep|null $primaryKeep;
 
+    #[Locked]
     public int $zoom = 10;
 
     /** @var array{latitude: float, longitude: float}|null */
