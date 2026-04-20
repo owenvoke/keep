@@ -10,6 +10,7 @@ use App\Rules\ValidLocation;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
@@ -23,6 +24,7 @@ class Show extends Component
     #[Url, Validate('int'), Validate('in:10,25,50,100')]
     public int $distance = 50;
 
+    #[Locked]
     private Coordinates|null $homeCoordinates = null;
 
     public function mount(): void
