@@ -9,6 +9,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -27,7 +28,7 @@ class Index extends Component
     #[Url]
     public string $search = '';
 
-    #[Validate('int')]
+    #[Locked, Validate('int')]
     public int|null $user = null;
 
     #[Validate('boolean')]
