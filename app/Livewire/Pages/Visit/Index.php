@@ -20,10 +20,10 @@ class Index extends Component
     use WithPagination;
 
     #[Url]
-    public string $sortBy = 'name';
+    public string $sortBy = 'visited_at';
 
     #[Url]
-    public string $sortDirection = 'asc';
+    public string $sortDirection = 'desc';
 
     #[Url]
     public string $search = '';
