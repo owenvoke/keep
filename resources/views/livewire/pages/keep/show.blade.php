@@ -177,7 +177,12 @@
                     </div>
                     <div class="min-h-2 sm:min-h-1"></div>
                     <div class="pl-8">
-                        <flux:text variant="strong">{{ $visit->comment }}</flux:text>
+                        <flux:text inline>{!! nl2br(e(Illuminate\Support\Str::limit($visit->comment, 200, preserveWords: true))) !!}</flux:text>
+                        @if(mb_strlen($visit->comment) > 200)
+                            <flux:link :href="route('visit.show', ['visit' => $visit])" wire:navigate>
+                                <flux:text inline size="sm">{{ __('Read more') }}</flux:text>
+                            </flux:link>
+                        @endif
                     </div>
                 </div>
             @endforeach

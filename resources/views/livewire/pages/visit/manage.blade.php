@@ -4,15 +4,21 @@
             <flux:link :href="route('keep.show', ['keep' => $this->keep])" wire:navigate>{{ $this->keep->name }}</flux:link>
         </flux:heading>
         @if($this->visit)
-            <flux:heading size="md" level="2" class="mb-6 font-mono flex items-center gap-2"
+            <flux:heading level="3" class="flex flex-row space-x-1 items-center-safe font-mono"
                           title="{{ $this->visit->visited_at->diffForHumans() }}">
-                <time datetime="{{ $this->visit->visited_at->toIso8601String() }}">
-                    <span>{{ $this->visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}</span>
-                </time>
+                <flux:text inline>
+                    <flux:icon.clock class="size-5 inline" />
+                </flux:text>
+                <flux:text size="sm" inline>
+                    <time
+                        datetime="{{ $this->visit->visited_at->toIso8601String() }}"
+                    >{{ $this->visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}</time>
+                </flux:text>
             </flux:heading>
         @endif
-        <flux:separator variant="subtle"/>
     </div>
+
+    <flux:separator variant="subtle" class="my-6"/>
 
     @if($this->visit)
         <div class="flex flex-auto flex-row justify-end space-x-4 mb-6">

@@ -15,6 +15,6 @@ class Share extends Component
     public function render(): View
     {
         return view('livewire.pages.visit.share')
-            ->layout('layouts::share');
+            ->layout('layouts::share', ['title' => $this->visit->keep->name]);
     }
 }
