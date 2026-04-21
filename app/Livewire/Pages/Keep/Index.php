@@ -42,7 +42,7 @@ class Index extends Component
 
     public function mount(): void
     {
-        $this->country ??= auth()->user()->country ?? Country::GB;
+        $this->country ??= auth()->user()?->country;
     }
 
     public function render(): View
