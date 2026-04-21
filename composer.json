@@ -5,6 +5,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.4",
+        "geocoder-php/nominatim-provider": "^5.8",
         "laravel/fortify": "^1.34",
         "laravel/framework": "^13.0",
         "laravel/tinker": "^3.0",
@@ -13,7 +14,8 @@
         "livewire/livewire": "^4.1",
         "socialiteproviders/manager": "^4.9",
         "spatie/laravel-data": "^4.21",
-        "symfony/intl": "^8.0"
+        "symfony/intl": "^8.0",
+        "toin0u/geocoder-laravel": "^13.0"
     },
     "require-dev": {
         "canvural/larastan-strict-rules": "^3.0",

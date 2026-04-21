@@ -6,7 +6,6 @@ namespace App\Livewire\Pages\Map;
 
 use App\DataObjects\Coordinates;
 use App\Models\Keep;
-use App\Rules\ValidLocation;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Livewire\Attributes\Computed;
@@ -18,7 +17,7 @@ use Livewire\Component;
 
 class Show extends Component
 {
-    #[Url, Validate('nullable'), Validate(new ValidLocation)]
+    #[Url, Validate('nullable')]
     public string|null $location = null;
 
     #[Url, Validate('int'), Validate('in:10,25,50,100')]
@@ -76,6 +75,6 @@ class Show extends Component
 
         $location = $this->location ?? $this->homeCoordinates?->__toString();
 
-        return Coordinates::fromString($location);
+        return Coordinates::fromString($location, requireCoordinates: false);
     }
 }
