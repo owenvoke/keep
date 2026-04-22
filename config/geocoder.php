@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Services\Geocoder\Drivers\MapsCo;
 use Geocoder\Laravel\Http\LaravelHttpClient;
 use Geocoder\Provider\Chain\Chain;
 use Geocoder\Provider\Nominatim\Nominatim;
@@ -58,6 +59,9 @@ return [
     */
     'providers' => [
         Chain::class => [
+            MapsCo::class => [
+                env('MAPSCO_API_KEY'),
+            ],
             Nominatim::class => [
                 'https://nominatim.openstreetmap.org',
                 'Keep (https://github.com/owenvoke/keep)',

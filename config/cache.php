@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Geocoder\Model\Address;
 use Geocoder\Model\Coordinates;
 use Geocoder\Provider\Nominatim\Model\NominatimAddress;
 use Illuminate\Support\Collection;
@@ -131,6 +132,7 @@ return [
     */
 
     'serializable_classes' => [
+        Address::class,
         Collection::class,
         Coordinates::class,
         NominatimAddress::class,
