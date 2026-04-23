@@ -1,11 +1,13 @@
 @php
     $id = 'map_'.$this->getId();
 
+    $defaultCoordinates = [-0.118092, 51.509865]; // Center of London, UK
+
     // MapLibreGL expects coordinates in the format [`longitude`, `latitude`]
     $centerCoordinates = match (true) {
         isset($this->primaryKeep) => [$this->primaryKeep->coordinates->longitude, $this->primaryKeep->coordinates->latitude],
         isset($this->center) => [$this->center['longitude'], $this->center['latitude']],
-        default => [-2.89479, 54.093409], // Center of UK
+        default => $defaultCoordinates,
     };
 
     $keepMarkers = $this->keeps->isNotEmpty()

@@ -22,8 +22,6 @@ class Index extends Component
 {
     use WithPagination;
 
-    private Settings|null $settings = null;
-
     #[Url]
     public string $sortBy = 'name';
 
@@ -50,6 +48,8 @@ class Index extends Component
 
     #[Url(as: 'visited')]
     public bool $onlyVisited = false;
+
+    private Settings|null $settings = null;
 
     public function mount(): void
     {
@@ -89,7 +89,7 @@ class Index extends Component
             ->tap(fn (Builder $query) => $this->type ? $query->where('type', $this->type) : $query)
             ->tap(fn (Builder $query) => $this->ownedBy ? $query->whereLike('owned_by', "%{$this->ownedBy}%") : $query)
             ->tap(fn (Builder $query) => $this->onlyVisited ? $query->whereHas('visits', fn (Builder $query) => $query->where('user_id', auth()->id())) : $query)
-            ->tap(fn (Builder $query) => $this->settings?->hideFollies ? $query->whereNot('type', 'Folly') : $query)
+            ->tap(fn (Builder $query) => $this->settings?->hideFollies ? $query->whereNot('type', Type::Folly) : $query)
             ->paginate(50);
     }
 }

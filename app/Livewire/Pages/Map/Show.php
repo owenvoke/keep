@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Livewire\Pages\Map;
 
 use App\DataObjects\Coordinates;
+use App\DataObjects\Settings;
+use App\Enums\Type;
 use App\Models\Keep;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Livewire\Attributes\Computed;
-use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Validate;
@@ -23,11 +25,18 @@ class Show extends Component
     #[Url, Validate('int'), Validate('in:10,25,50,100')]
     public int $distance = 50;
 
-    #[Locked]
+    private Settings|null $settings = null;
+
     private Coordinates|null $homeCoordinates = null;
 
     public function mount(): void
     {
+        $user = auth()->user();
+
+        assert($user !== null);
+
+        $this->settings = $user->settings;
+        $this->homeCoordinates ??= $user->home_coordinates;
         $this->location ??= $this->homeCoordinates?->__toString();
     }
 
@@ -60,7 +69,9 @@ class Show extends Component
             coordinates: $coordinates,
             distance: $this->distance,
             includeZero: true
-        )->get();
+        )
+            ->when($this->settings?->hideFollies, fn (Builder $query) => $query->whereNot('type', Type::Folly))
+            ->get();
     }
 
     #[On('location:updated')]
@@ -71,8 +82,6 @@ class Show extends Component
 
     private function parsedLocation(): Coordinates|null
     {
-        $this->homeCoordinates ??= auth()->user()?->home_coordinates;
-
         $location = $this->location ?? $this->homeCoordinates?->__toString();
 
         return Coordinates::fromString($location, requireCoordinates: false);
