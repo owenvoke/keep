@@ -6,19 +6,21 @@
         <flux:separator variant="subtle"/>
     </div>
 
-    <flux:container class="flex flex-auto flex-wrap space-x-4 space-y-4 mb-4">
+    <flux:container class="flex flex-auto flex-col flex-wrap space-2 h-min mb-4">
         <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
         <flux:input class="mb-4" wire:model.live="ownedBy" :placeholder="__('Owned by...')" icon="magnifying-glass"/>
-        <div class="mb-4 flex flex-auto flex-row flex-wrap sm:flex-nowrap sm:pr-4 space-x-4">
-            <flux:select class="mb-4 w-full" wire:model.live="country" wire:change="region = null">
-                <flux:select.option value=""
-                                    :selected="$this->country === ''">{{ __('Any country') }}</flux:select.option>
-                @foreach(App\Enums\Country::orderedCases() as $country)
-                    <flux:select.option :value="$country->value">{{ __($country->label()) }}</flux:select.option>
-                @endforeach
-            </flux:select>
-            <div class="flex flex-auto flex-row space-x-4">
-                <flux:select class="mb-4 w-min" wire:model.live="region">
+        <div class="flex flex-auto flex-row flex-wrap md:flex-nowrap space-x-2 md:space-x-2 mb-2">
+            <div class="flex flex-auto flex-row h-min">
+                <flux:select class="mb-4 w-full" wire:model.live="country" wire:change="region = null">
+                    <flux:select.option value=""
+                                        :selected="$this->country === ''">{{ __('Any country') }}</flux:select.option>
+                    @foreach(App\Enums\Country::orderedCases() as $country)
+                        <flux:select.option :value="$country->value">{{ __($country->label()) }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+            </div>
+            <div class="flex flex-auto flex-row h-min">
+                <flux:select class="mb-4" wire:model.live="region">
                     <flux:select.option value=""
                                         :selected="$this->region === ''">{{ __('Any region') }}</flux:select.option>
                     @if($this->country?->regions())
@@ -27,7 +29,24 @@
                         @endforeach
                     @endif
                 </flux:select>
-                <div class="flex flex-auto w-min flex-col justify-center">
+            </div>
+            <div class="flex flex-auto flex-row h-min space-x-2">
+                <flux:select class="mb-4" wire:model.live="type">
+                    <flux:select.option value=""
+                                        :selected="$this->type === ''">{{ __('Any type') }}</flux:select.option>
+                    @foreach(App\Enums\Type::cases() as $type)
+                        <flux:select.option :value="$type->value">{{ __($type->label()) }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                <flux:select class="mb-4" wire:model.live="condition">
+                    <flux:select.option value=""
+                                        :selected="$this->condition === ''">{{ __('Any condition') }}</flux:select.option>
+                    @foreach(App\Enums\Condition::cases() as $condition)
+                        <flux:select.option
+                            :value="$condition->value">{{ __($condition->label()) }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                <div class="flex flex-col justify-center mr-4">
                     <flux:field class="mb-4" variant="inline">
                         <flux:checkbox wire:model.live="onlyVisited"/>
                         <flux:label>{{ __('Visited') }}</flux:label>
@@ -51,6 +70,9 @@
                                    wire:click="sort('region')">{{ __('Region') }}
                 </flux:table.column>
             @endif
+            <flux:table.column sortable :sorted="$sortBy === 'type'" :direction="$sortDirection"
+                               wire:click="sort('type')">{{ __('Type') }}
+            </flux:table.column>
             <flux:table.column sortable :sorted="$sortBy === 'built'" :direction="$sortDirection"
                                wire:click="sort('built')">{{ __('Built') }}
             </flux:table.column>
@@ -66,8 +88,18 @@
                 <flux:table.row :key="$keep->uuid">
                     <flux:table.cell>
                         @if(auth()->user()->hasVisited($keep))
-                            <flux:text color="green" class="ml-4">
+                            <flux:text color="green" class="ml-4"
+                                       :title="__(':type (Visited)', ['type' => $keep->type->label()])">
                                 <flux:icon.check-circle/>
+                            </flux:text>
+                        @else
+                            <flux:text class="ml-4" :color="$keep->type === App\Enums\Type::Folly ? 'amber' : null"
+                                       :title="$keep->type->label()">
+                                @if ($keep->type === App\Enums\Type::Palace)
+                                    <flux:icon.castle/>
+                                @else
+                                    <flux:icon.chess-rook/>
+                                @endif
                             </flux:text>
                         @endif
                     </flux:table.cell>
@@ -78,6 +110,7 @@
                     @if($this->country?->regions())
                         <flux:table.cell class="whitespace-nowrap">{{ __($keep->region->label()) }}</flux:table.cell>
                     @endif
+                    <flux:table.cell class="whitespace-nowrap">{{ $keep->type->label() }}</flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ $keep->built }}</flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <flux:link href="{{ $keep->coordinates->link() }}" external>{{ $keep->coordinates }}</flux:link>

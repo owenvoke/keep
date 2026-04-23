@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\DataObjects\Coordinates;
+use App\Enums\Condition;
 use App\Enums\Country;
 use App\Enums\Region;
+use App\Enums\Type;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsUri;
@@ -23,9 +25,9 @@ use Illuminate\Support\Uri;
  * @property Region|null $region
  * @property Coordinates $coordinates
  * @property string $built
- * @property string $condition
+ * @property Condition $condition
  * @property string $owned_by
- * @property string $type
+ * @property Type $type
  * @property bool $accessible
  * @property Collection<int, string>|null $alternative_names
  * @property string|null $description
@@ -55,10 +57,12 @@ class Keep extends Model
         return [
             'accessible' => 'boolean',
             'alternative_names' => 'collection',
+            'condition' => Condition::class,
             'coordinates' => Coordinates::class,
             'country' => Country::class,
             'homepage' => AsUri::class,
             'region' => Region::class,
+            'type' => Type::class,
         ];
     }
 
@@ -118,8 +122,8 @@ class Keep extends Model
             'latitude' => $this->coordinates->latitude,
             'name' => $this->name,
             'built' => $this->built,
-            'type' => $this->type,
-            'condition' => $this->condition,
+            'type' => $this->type->label(),
+            'condition' => $this->condition->label(),
             'url' => route('keep.show', ['keep' => $this]),
             'color' => $this->visitedBy($user) ? 'green' : '#bbb',
         ];

@@ -79,7 +79,7 @@
                     <flux:text variant="strong">{{ __('Condition') }}</flux:text>
                 </dt>
                 <dd>
-                    <flux:text>{{ $this->keep->condition }}</flux:text>
+                    <flux:text>{{ $this->keep->condition->label() }}</flux:text>
                 </dd>
             </div>
             <div class="p-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:px-0">
@@ -95,7 +95,7 @@
                     <flux:text variant="strong">{{ __('Type') }}</flux:text>
                 </dt>
                 <dd>
-                    <flux:text>{{ __($this->keep->type) }}</flux:text>
+                    <flux:text>{{ __($this->keep->type->label()) }}</flux:text>
                 </dd>
             </div>
             @if($this->keep->alternative_names)

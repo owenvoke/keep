@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
+use App\Enums\Condition;
 use App\Enums\Country;
 use App\Enums\Region;
+use App\Enums\Type;
 use App\Livewire\Pages\Keep\Index as KeepIndex;
 use App\Models\User;
 use Database\Factories\KeepFactory;
@@ -62,10 +64,11 @@ test('keep index can filter by folly setting', function () {
     ]);
     $realKeep = KeepFactory::new()->create([
         'name' => 'Visited Keep',
+        'type' => Type::Palace,
     ]);
     $follyKeep = KeepFactory::new()->create([
         'name' => 'Unvisited Keep',
-        'type' => 'Folly',
+        'type' => Type::Folly,
     ]);
 
     $this->actingAs($user);
@@ -73,4 +76,50 @@ test('keep index can filter by folly setting', function () {
     Livewire::test(KeepIndex::class)
         ->assertSee($realKeep->name)
         ->assertDontSee($follyKeep->name);
+});
+
+test('keep index can filter by type', function () {
+    $user = User::factory()->create(['country' => Country::GB]);
+    $matchingKeep = KeepFactory::new()->create([
+        'name' => 'Round Keep Match',
+        'country' => Country::GB,
+        'region' => Region::England,
+        'type' => Type::RoundKeep,
+    ]);
+    $otherKeep = KeepFactory::new()->create([
+        'name' => 'Fort Keep Other',
+        'country' => Country::GB,
+        'region' => Region::England,
+        'type' => Type::Fort,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(KeepIndex::class)
+        ->set('type', Type::RoundKeep)
+        ->assertSee($matchingKeep->name)
+        ->assertDontSee($otherKeep->name);
+});
+
+test('keep index can filter by condition', function () {
+    $user = User::factory()->create(['country' => Country::GB]);
+    $matchingKeep = KeepFactory::new()->create([
+        'name' => 'Intact Keep Match',
+        'country' => Country::GB,
+        'region' => Region::England,
+        'condition' => Condition::Intact,
+    ]);
+    $otherKeep = KeepFactory::new()->create([
+        'name' => 'Ruins Keep Other',
+        'country' => Country::GB,
+        'region' => Region::England,
+        'condition' => Condition::Ruins,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(KeepIndex::class)
+        ->set('condition', Condition::Intact)
+        ->assertSee($matchingKeep->name)
+        ->assertDontSee($otherKeep->name);
 });

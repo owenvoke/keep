@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Livewire\Pages\Keep;
 
 use App\DataObjects\Settings;
+use App\Enums\Condition;
 use App\Enums\Country;
 use App\Enums\Region;
+use App\Enums\Type;
 use App\Models\Keep;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
@@ -32,10 +34,16 @@ class Index extends Component
     public string $search = '';
 
     #[Url]
+    public Condition|null $condition = null;
+
+    #[Url]
     public Country|null $country = null;
 
     #[Url]
     public Region|null $region = null;
+
+    #[Url]
+    public Type|null $type = null;
 
     #[Url]
     public string $ownedBy = '';
@@ -75,8 +83,10 @@ class Index extends Component
         return Keep::query()
             ->tap(fn (Builder $query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->tap(fn (Builder $query) => $this->search ? $query->whereLike('name', "%{$this->search}%") : $query)
+            ->tap(fn (Builder $query) => $this->condition ? $query->where('condition', $this->condition) : $query)
             ->tap(fn (Builder $query) => $this->country ? $query->where('country', $this->country) : $query)
             ->tap(fn (Builder $query) => $this->region ? $query->where('region', $this->region) : $query)
+            ->tap(fn (Builder $query) => $this->type ? $query->where('type', $this->type) : $query)
             ->tap(fn (Builder $query) => $this->ownedBy ? $query->whereLike('owned_by', "%{$this->ownedBy}%") : $query)
             ->tap(fn (Builder $query) => $this->onlyVisited ? $query->whereHas('visits', fn (Builder $query) => $query->where('user_id', auth()->id())) : $query)
             ->tap(fn (Builder $query) => $this->settings?->hideFollies ? $query->whereNot('type', 'Folly') : $query)
