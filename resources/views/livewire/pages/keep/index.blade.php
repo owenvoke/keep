@@ -14,7 +14,7 @@
                 <flux:select class="mb-4 w-full" wire:model.live="country" wire:change="region = null">
                     <flux:select.option value=""
                                         :selected="$this->country === ''">{{ __('Any country') }}</flux:select.option>
-                    @foreach(App\Enums\Country::orderedCases() as $country)
+                    @foreach(App\Enums\Country::casesWithKeeps() as $country)
                         <flux:select.option :value="$country->value">{{ __($country->label()) }}</flux:select.option>
                     @endforeach
                 </flux:select>

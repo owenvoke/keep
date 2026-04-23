@@ -16,8 +16,6 @@ class SynchroniseJob implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct() {}
-
     public function handle(HttpFactory $http): void
     {
         $response = $http

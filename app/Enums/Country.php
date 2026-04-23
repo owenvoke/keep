@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Jobs\CacheCountriesWithKeepsJob;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Intl\Countries;
 
 enum Country: string
@@ -274,5 +276,15 @@ enum Country: string
     public static function orderedCases(): array
     {
         return Arr::sort(self::cases(), fn (self $case) => $case->label(app()->getLocale()));
+    }
+
+    /** @return list<self> */
+    public static function casesWithKeeps(): array
+    {
+        if (! Cache::has(CacheCountriesWithKeepsJob::CACHE_KEY)) {
+            CacheCountriesWithKeepsJob::dispatchSync();
+        }
+
+        return Cache::get(CacheCountriesWithKeepsJob::CACHE_KEY);
     }
 }
