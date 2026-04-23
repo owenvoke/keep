@@ -158,6 +158,7 @@
                 <div class="p-3 sm:p-4 rounded-lg">
                     <div class="flex flex-row items-center gap-2">
                         <flux:avatar :name="$visit->user->name" :initials="$visit->user->initials()" size="xs"
+                                     color="auto" :color-seed="$visit->user->id"
                                      class="shrink-0"/>
                         <div class="flex flex-row gap-2 items-center">
                             <div class="flex items-center gap-2">
