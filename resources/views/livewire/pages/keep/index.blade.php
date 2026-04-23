@@ -6,12 +6,14 @@
         <flux:separator variant="subtle"/>
     </div>
 
-    <flux:container class="flex flex-auto flex-col flex-wrap space-2 h-min mb-4">
-        <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
-        <flux:input class="mb-4" wire:model.live="ownedBy" :placeholder="__('Owned by...')" icon="magnifying-glass"/>
-        <div class="flex flex-auto flex-row flex-wrap md:flex-nowrap space-x-2 md:space-x-2 mb-2">
+    <flux:container class="flex flex-col flex-wrap gap-2 h-min mb-4">
+        <div class="space-y-2">
+            <flux:input wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
+            <flux:input wire:model.live="ownedBy" :placeholder="__('Owned by...')" icon="magnifying-glass"/>
+        </div>
+        <div class="flex flex-row flex-wrap md:flex-nowrap align-middle gap-2">
             <div class="flex flex-auto flex-row h-min">
-                <flux:select class="mb-4 w-full" wire:model.live="country" wire:change="region = null">
+                <flux:select wire:model.live="country" wire:change="region = null">
                     <flux:select.option value=""
                                         :selected="$this->country === ''">{{ __('Any country') }}</flux:select.option>
                     @foreach(App\Enums\Country::casesWithKeeps() as $country)
@@ -20,7 +22,7 @@
                 </flux:select>
             </div>
             <div class="flex flex-auto flex-row h-min">
-                <flux:select class="mb-4" wire:model.live="region">
+                <flux:select wire:model.live="region">
                     <flux:select.option value=""
                                         :selected="$this->region === ''">{{ __('Any region') }}</flux:select.option>
                     @if($this->country?->regions())
@@ -30,15 +32,15 @@
                     @endif
                 </flux:select>
             </div>
-            <div class="flex flex-auto flex-row h-min space-x-2">
-                <flux:select class="mb-4" wire:model.live="type">
+            <div class="flex flex-row h-min gap-2">
+                <flux:select wire:model.live="type">
                     <flux:select.option value=""
                                         :selected="$this->type === ''">{{ __('Any type') }}</flux:select.option>
                     @foreach(App\Enums\Type::cases() as $type)
                         <flux:select.option :value="$type->value">{{ __($type->label()) }}</flux:select.option>
                     @endforeach
                 </flux:select>
-                <flux:select class="mb-4" wire:model.live="condition">
+                <flux:select wire:model.live="condition">
                     <flux:select.option value=""
                                         :selected="$this->condition === ''">{{ __('Any condition') }}</flux:select.option>
                     @foreach(App\Enums\Condition::cases() as $condition)
@@ -46,11 +48,8 @@
                             :value="$condition->value">{{ __($condition->label()) }}</flux:select.option>
                     @endforeach
                 </flux:select>
-                <div class="flex flex-col justify-center mr-4">
-                    <flux:field class="mb-4" variant="inline">
-                        <flux:checkbox wire:model.live="onlyVisited"/>
-                        <flux:label>{{ __('Visited') }}</flux:label>
-                    </flux:field>
+                <div class="flex flex-col justify-center w-min">
+                    <flux:checkbox class="align-middle" :label="__('Visited')" wire:model.live="onlyVisited"/>
                 </div>
             </div>
         </div>
