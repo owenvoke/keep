@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Visit;
 use Database\Factories\KeepFactory;
 use Database\Factories\VisitFactory;
+use Illuminate\Support\Number;
 
 test('visit manage can create a visit', function () {
     $user = User::factory()->create();
@@ -26,9 +27,10 @@ test('visit manage can create a visit', function () {
         ->where('user_id', $user->id)
         ->first();
 
-    expect($visit)->not->toBeNull();
-    expect($visit?->comment)->toBe('Great day out.');
-    expect($visit?->visited_at->format('Y-m-d H:i'))->toBe($visitedAt->format('Y-m-d H:i'));
+    expect($visit)
+        ->not->toBeNull()
+        ->comment->toBe('Great day out.')
+        ->visited_at->format('Y-m-d H:i')->toBe($visitedAt->format('Y-m-d H:i'));
 });
 
 test('visit manage can update an existing visit', function () {
@@ -45,7 +47,8 @@ test('visit manage can update an existing visit', function () {
         ->call('save')
         ->assertHasNoErrors();
 
-    expect($visit->refresh()->comment)->toBe('Updated comment');
+    expect($visit->refresh())
+        ->comment->toBe('Updated comment');
 });
 
 test('visit manage prevents users from updating another users visit', function () {
@@ -81,7 +84,42 @@ test('visit manage can delete an existing visit', function () {
 
     Livewire::test(VisitManage::class, ['keep' => $visit->keep, 'visit' => $visit])
         ->call('delete')
-        ->assertHasNoErrors();
+        ->assertHasNoErrors()
+        ->assertDispatched(
+            event: 'toast-show',
+            slots: [
+                'text' => __('Your visit has been deleted.'),
+            ],
+        );
 
     $this->assertModelMissing($visit);
+});
+
+test('visit manage sends a congratulatory notification on every 10th visit', function () {
+    $user = User::factory()->create();
+    $keep = KeepFactory::new()->create();
+    $visitedAt = now()->subDay();
+
+    VisitFactory::new()->count(9)->create([
+        'user_id' => $user->id,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(VisitManage::class, ['keep' => $keep])
+        ->set('comment', 'Milestone visit.')
+        ->set('visited', $visitedAt->format('Y-m-d\TH:i'))
+        ->call('save')
+        ->assertDispatched(
+            event: 'toast-show',
+            duration: 10000,
+            slots: [
+                'text' => __('Congratulations! This is your :count visit.', [
+                    'count' => Number::ordinal(10),
+                ]),
+            ],
+            dataset: [
+                'variant' => 'success',
+            ],
+        );
 });
