@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Pages\Keep;
 
+use App\DataObjects\Settings;
 use App\Enums\Country;
 use App\Enums\Region;
 use App\Models\Keep;
@@ -18,6 +19,8 @@ use Livewire\WithPagination;
 class Index extends Component
 {
     use WithPagination;
+
+    private Settings|null $settings = null;
 
     #[Url]
     public string $sortBy = 'name';
@@ -42,7 +45,12 @@ class Index extends Component
 
     public function mount(): void
     {
-        $this->country ??= auth()->user()?->country;
+        $user = auth()->user();
+
+        assert($user !== null);
+
+        $this->settings = $user->settings;
+        $this->country ??= $user->country;
     }
 
     public function render(): View
@@ -71,6 +79,7 @@ class Index extends Component
             ->tap(fn (Builder $query) => $this->region ? $query->where('region', $this->region) : $query)
             ->tap(fn (Builder $query) => $this->ownedBy ? $query->whereLike('owned_by', "%{$this->ownedBy}%") : $query)
             ->tap(fn (Builder $query) => $this->onlyVisited ? $query->whereHas('visits', fn (Builder $query) => $query->where('user_id', auth()->id())) : $query)
+            ->tap(fn (Builder $query) => $this->settings?->hideFollies ? $query->whereNot('type', 'Folly') : $query)
             ->paginate(50);
     }
 }

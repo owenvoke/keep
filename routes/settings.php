@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Livewire\Settings\Appearance;
+use App\Livewire\Settings\Filters;
 use App\Livewire\Settings\Location;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\Security;
@@ -19,6 +20,7 @@ $router->middleware(['auth'])->group(function (Router $router) {
 $router->middleware(['auth', 'verified'])->group(function (Router $router) {
     $router->livewire('settings/appearance', Appearance::class)->name('appearance.edit');
     $router->livewire('settings/location', Location::class)->name('location.edit');
+    $router->livewire('settings/filters', Filters::class)->name('filters.edit');
 
     $router->livewire('settings/security', Security::class)
         ->middleware(

@@ -55,3 +55,22 @@ test('keep index can filter to visited keeps only', function () {
         ->assertSee($visitedKeep->name)
         ->assertDontSee($unvisitedKeep->name);
 });
+
+test('keep index can filter by folly setting', function () {
+    $user = User::factory()->create([
+        'settings->hideFollies' => true,
+    ]);
+    $realKeep = KeepFactory::new()->create([
+        'name' => 'Visited Keep',
+    ]);
+    $follyKeep = KeepFactory::new()->create([
+        'name' => 'Unvisited Keep',
+        'type' => 'Folly',
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(KeepIndex::class)
+        ->assertSee($realKeep->name)
+        ->assertDontSee($follyKeep->name);
+});

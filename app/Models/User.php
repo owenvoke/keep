@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\DataObjects\Coordinates;
+use App\DataObjects\Settings;
 use App\Enums\Country;
 use Carbon\CarbonImmutable;
 use Database\Factories\UserFactory;
@@ -25,11 +26,12 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
  * @property string $password
  * @property Country|null $country
  * @property Coordinates|null $home_coordinates
+ * @property Settings $settings
  * @property CarbonImmutable|null $email_verified_at
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
  */
-#[Fillable(['name', 'email', 'password', 'country', 'home_coordinates'])]
+#[Fillable(['name', 'email', 'password', 'country', 'home_coordinates', 'settings'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -44,6 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'home_coordinates' => Coordinates::class,
             'password' => 'hashed',
+            'settings' => Settings::class.':default',
         ];
     }
 
