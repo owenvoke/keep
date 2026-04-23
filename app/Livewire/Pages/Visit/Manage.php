@@ -8,6 +8,7 @@ use App\Models\Keep;
 use App\Models\Visit;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Number;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
@@ -64,10 +65,12 @@ class Manage extends Component
             'visited_at' => $this->visited,
         ]);
 
+        $this->congratulateUser();
+
         $this->redirectRoute('visit.manage', [
             'keep' => $this->keep,
             'visit' => $visit,
-        ]);
+        ], navigate: true);
     }
 
     public function delete(): void
@@ -85,5 +88,24 @@ class Manage extends Component
         Flux::toast(__('Your visit has been deleted.'));
 
         $this->redirectRoute('visit.index', navigate: true);
+    }
+
+    private function congratulateUser(): void
+    {
+        $numberOfVisits = auth()->user()?->visits->count();
+
+        if ($numberOfVisits === null) {
+            return;
+        }
+
+        if ($numberOfVisits % 10 !== 0) {
+            return;
+        }
+
+        Flux::toast(
+            __('Congratulations! This is your :count visit.', ['count' => Number::ordinal($numberOfVisits)]),
+            duration: 10000,
+            variant: 'success'
+        );
     }
 }
