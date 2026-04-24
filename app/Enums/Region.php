@@ -7,7 +7,7 @@ namespace App\Enums;
 enum Region: string
 {
     case England = 'GB-ENG';
-    case Ireland = 'GB-NIR';
+    case NorthernIreland = 'GB-NIR';
     case Scotland = 'GB-SCT';
     case Wales = 'GB-WLS';
 
@@ -15,7 +15,7 @@ enum Region: string
     {
         return match ($this) {
             self::England => 'England',
-            self::Ireland => 'Ireland',
+            self::NorthernIreland => 'Northern Ireland',
             self::Scotland => 'Scotland',
             self::Wales => 'Wales',
         };
