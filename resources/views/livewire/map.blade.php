@@ -71,10 +71,8 @@
                 return info
             }
 
-            map.on('click', (event) => {
-                if (event.type === 'contextmenu') {
-                    $wire.dispatch('location:updated', [event.lngLat.lat, event.lngLat.lng])
-                }
+            map.on('contextmenu', (event) => {
+                $wire.dispatch('location:updated', [event.lngLat.lat, event.lngLat.lng])
             });
 
             @isset($this->primaryKeep)
