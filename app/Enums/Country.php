@@ -273,18 +273,18 @@ enum Country: string
     }
 
     /** @return array<int, self> */
-    public static function orderedCases(): array
-    {
-        return Arr::sort(self::cases(), fn (self $case) => $case->label(app()->getLocale()));
-    }
-
-    /** @return list<self> */
     public static function casesWithKeeps(): array
     {
         if (! Cache::has(CacheCountriesWithKeepsJob::CACHE_KEY)) {
             CacheCountriesWithKeepsJob::dispatchSync();
         }
 
-        return Cache::get(CacheCountriesWithKeepsJob::CACHE_KEY);
+        /** @var list<Country> $countries */
+        $countries = Cache::get(CacheCountriesWithKeepsJob::CACHE_KEY);
+
+        return Arr::sort(
+            $countries,
+            fn (Country $case) => $case->label(app()->getLocale())
+        );
     }
 }
