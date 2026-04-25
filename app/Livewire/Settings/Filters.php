@@ -21,6 +21,12 @@ class Filters extends Component
     #[Validate('boolean')]
     public bool $hideFollies;
 
+    #[Validate('boolean')]
+    public bool $hideFortifiedManorHouses;
+
+    #[Validate('boolean')]
+    public bool $hideTowerHouses;
+
     public function mount(): void
     {
         $user = Auth::user();
@@ -30,6 +36,8 @@ class Filters extends Component
         $this->user = $user;
 
         $this->hideFollies = $user->settings->hideFollies;
+        $this->hideFortifiedManorHouses = $user->settings->hideFortifiedManorHouses;
+        $this->hideTowerHouses = $user->settings->hideTowerHouses;
     }
 
     public function updateSettings(): void
@@ -37,6 +45,8 @@ class Filters extends Component
         $this->validate();
 
         $this->user->settings->hideFollies = $this->hideFollies;
+        $this->user->settings->hideFortifiedManorHouses = $this->hideFortifiedManorHouses;
+        $this->user->settings->hideTowerHouses = $this->hideTowerHouses;
 
         $this->user->update([
             'settings' => $this->user->settings,

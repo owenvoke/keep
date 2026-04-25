@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\DataObjects\Settings;
 use App\Enums\Condition;
 use App\Enums\Country;
 use App\Enums\Region;
@@ -59,23 +60,63 @@ test('keep index can filter to visited keeps only', function () {
 });
 
 test('keep index can filter by folly setting', function () {
-    $user = User::factory()->create([
-        'settings->hideFollies' => true,
-    ]);
-    $realKeep = KeepFactory::new()->create([
-        'name' => 'Visited Keep',
+    $user = User::factory()->withSettings(new Settings(
+        hideFollies: true,
+    ))->create();
+    $includedKeep = KeepFactory::new()->create([
+        'name' => 'Real Keep',
         'type' => Type::Palace,
     ]);
-    $follyKeep = KeepFactory::new()->create([
-        'name' => 'Unvisited Keep',
+    $filteredKeep = KeepFactory::new()->create([
+        'name' => 'Folly Keep',
         'type' => Type::Folly,
     ]);
 
     $this->actingAs($user);
 
     Livewire::test(KeepIndex::class)
-        ->assertSee($realKeep->name)
-        ->assertDontSee($follyKeep->name);
+        ->assertSee($includedKeep->name)
+        ->assertDontSee($filteredKeep->name);
+});
+
+test('keep index can filter by fortified manor house setting', function () {
+    $user = User::factory()->withSettings(new Settings(
+        hideFortifiedManorHouses: true,
+    ))->create();
+    $includedKeep = KeepFactory::new()->create([
+        'name' => 'Real Keep',
+        'type' => Type::Palace,
+    ]);
+    $filteredKeep = KeepFactory::new()->create([
+        'name' => 'Fortified Manor House Keep',
+        'type' => Type::FortifiedManorHouse,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(KeepIndex::class)
+        ->assertSee($includedKeep->name)
+        ->assertDontSee($filteredKeep->name);
+});
+
+test('keep index can filter by tower house setting', function () {
+    $user = User::factory()->withSettings(new Settings(
+        hideTowerHouses: true,
+    ))->create();
+    $includedKeep = KeepFactory::new()->create([
+        'name' => 'Real Keep',
+        'type' => Type::Palace,
+    ]);
+    $filteredKeep = KeepFactory::new()->create([
+        'name' => 'Tower House Keep',
+        'type' => Type::TowerHouse,
+    ]);
+
+    $this->actingAs($user);
+
+    Livewire::test(KeepIndex::class)
+        ->assertSee($includedKeep->name)
+        ->assertDontSee($filteredKeep->name);
 });
 
 test('keep index can filter by type', function () {

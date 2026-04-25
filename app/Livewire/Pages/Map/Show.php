@@ -71,6 +71,8 @@ class Show extends Component
             includeZero: true
         )
             ->when($this->settings?->hideFollies, fn (Builder $query) => $query->whereNot('type', Type::Folly))
+            ->when($this->settings?->hideFortifiedManorHouses, fn (Builder $query) => $query->whereNot('type', Type::FortifiedManorHouse))
+            ->when($this->settings?->hideTowerHouses, fn (Builder $query) => $query->whereNot('type', Type::TowerHouse))
             ->get();
     }
 

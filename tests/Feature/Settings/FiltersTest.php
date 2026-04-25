@@ -27,3 +27,31 @@ test('hide follies filter can be set to true', function () {
 
     expect($user->refresh()->settings->hideFollies)->toBeTrue();
 });
+
+test('hide fortified manor houses filter can be set to true', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    $response = Livewire::test(Filters::class)
+        ->set('hideFortifiedManorHouses', true)
+        ->call('updateSettings');
+
+    $response->assertHasNoErrors();
+
+    expect($user->refresh()->settings->hideFortifiedManorHouses)->toBeTrue();
+});
+
+test('hide tower houses filter can be set to true', function () {
+    $user = User::factory()->create();
+
+    $this->actingAs($user);
+
+    $response = Livewire::test(Filters::class)
+        ->set('hideTowerHouses', true)
+        ->call('updateSettings');
+
+    $response->assertHasNoErrors();
+
+    expect($user->refresh()->settings->hideTowerHouses)->toBeTrue();
+});
