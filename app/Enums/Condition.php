@@ -6,8 +6,10 @@ namespace App\Enums;
 
 enum Condition: string
 {
+    case Earthworks = 'Earthworks';
     case FragmentedRemains = 'Fragmented Remains';
     case Intact = 'Intact';
+    case NoVisibleRemains = 'No Visible Remains';
     case PartiallyRestored = 'Partially Restored';
     case PartialRuins = 'Partial Ruins';
     case Rebuilt = 'Rebuilt';
