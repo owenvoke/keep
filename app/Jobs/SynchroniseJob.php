@@ -24,7 +24,11 @@ class SynchroniseJob implements ShouldQueue
             ->json();
 
         KeepEntry::collect($response, Collection::class)
-            ->map(fn (KeepEntry $keep) => Keep::query()->updateOrCreate(['uuid' => $keep->id],
-                Arr::except($keep->toArray(), 'id')));
+            ->map(fn (KeepEntry $keep) => Keep::query()
+                ->updateOrCreate(
+                    ['uuid' => $keep->id],
+                    Arr::except($keep->toArray(), 'id')
+                )
+            );
     }
 }

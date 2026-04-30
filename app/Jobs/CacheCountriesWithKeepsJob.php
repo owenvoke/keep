@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Enums\Country;
 use App\Models\Keep;
 use Illuminate\Contracts\Cache\Repository as CacheRepository;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -17,12 +18,14 @@ class CacheCountriesWithKeepsJob implements ShouldQueue
 
     public function handle(CacheRepository $cache): void
     {
-        $cache->rememberForever(self::CACHE_KEY, fn () => Keep::query()
+        /** @var list<Country> $countries */
+        $countries = Keep::query()
             ->select('country')
             ->distinct()
             ->orderBy('country')
             ->pluck('country')
-            ->toArray()
-        );
+            ->toArray();
+
+        $cache->forever(self::CACHE_KEY, $countries);
     }
 }
