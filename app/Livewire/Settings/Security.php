@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Livewire\Settings;
 
 use App\Concerns\PasswordValidationRules;
+use App\Models\User;
 use Exception;
 use Flux\Flux;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Laravel\Fortify\Actions\ConfirmTwoFactorAuthentication;
 use Laravel\Fortify\Actions\DisableTwoFactorAuthentication;
@@ -52,19 +52,20 @@ class Security extends Component
     #[Validate('required|string|size:6', onUpdate: false)]
     public string $code = '';
 
-    /**
-     * Mount the component.
-     */
     public function mount(DisableTwoFactorAuthentication $disableTwoFactorAuthentication): void
     {
         $this->canManageTwoFactor = Features::canManageTwoFactorAuthentication();
 
+        $user = auth()->user();
+
+        assert($user instanceof User);
+
         if ($this->canManageTwoFactor) {
-            if (Fortify::confirmsTwoFactorAuthentication() && is_null(auth()->user()->two_factor_confirmed_at)) {
-                $disableTwoFactorAuthentication(auth()->user());
+            if (Fortify::confirmsTwoFactorAuthentication() && is_null($user->two_factor_confirmed_at)) {
+                $disableTwoFactorAuthentication($user);
             }
 
-            $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
+            $this->twoFactorEnabled = $user->hasEnabledTwoFactorAuthentication();
             $this->requiresConfirmation = Features::optionEnabled(Features::twoFactorAuthentication(), 'confirm');
         }
     }
@@ -86,13 +87,17 @@ class Security extends Component
             throw $e;
         }
 
-        Auth::user()->update([
+        $user = auth()->user();
+
+        assert($user instanceof User);
+
+        $user->update([
             'password' => $validated['password'],
         ]);
 
         $this->reset('current_password', 'password', 'password_confirmation');
 
-        Flux::toast(variant: 'success', text: __('Password updated.'));
+        Flux::toast(text: __('Password updated.'), variant: 'success');
     }
 
     /**
@@ -100,10 +105,14 @@ class Security extends Component
      */
     public function enable(EnableTwoFactorAuthentication $enableTwoFactorAuthentication): void
     {
-        $enableTwoFactorAuthentication(auth()->user());
+        $user = auth()->user();
+
+        assert($user instanceof User);
+
+        $enableTwoFactorAuthentication($user);
 
         if (! $this->requiresConfirmation) {
-            $this->twoFactorEnabled = auth()->user()->hasEnabledTwoFactorAuthentication();
+            $this->twoFactorEnabled = $user->hasEnabledTwoFactorAuthentication();
         }
 
         $this->loadSetupData();
@@ -118,12 +127,15 @@ class Security extends Component
     {
         $user = auth()->user();
 
+        assert($user instanceof User);
+
         try {
+            // @phpstan-ignore argument.type
             $setupKey = decrypt($user->two_factor_secret);
 
             assert(is_string($setupKey));
 
-            $this->qrCodeSvg = $user?->twoFactorQrCodeSvg();
+            $this->qrCodeSvg = $user->twoFactorQrCodeSvg();
             $this->manualSetupKey = $setupKey;
         } catch (Exception) {
             $this->addError('setupData', 'Failed to fetch setup data.');
@@ -163,7 +175,7 @@ class Security extends Component
     }
 
     /**
-     * Reset two-factor verification state.
+     * Reset the two-factor verification state.
      */
     public function resetVerification(): void
     {

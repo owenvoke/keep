@@ -16,9 +16,6 @@ class RecoveryCodes extends Component
     #[Locked]
     public array $recoveryCodes = [];
 
-    /**
-     * Mount the component.
-     */
     public function mount(): void
     {
         $this->loadRecoveryCodes();
