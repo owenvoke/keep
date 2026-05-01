@@ -8,7 +8,6 @@ use App\Livewire\Settings\Location;
 use App\Livewire\Settings\Profile;
 use App\Livewire\Settings\Security;
 use Illuminate\Routing\Router;
-use Laravel\Fortify\Features;
 
 /** @var Router $router */
 $router->middleware(['auth'])->group(function (Router $router) {
@@ -23,13 +22,8 @@ $router->middleware(['auth', 'verified'])->group(function (Router $router) {
     $router->livewire('settings/filters', Filters::class)->name('filters.edit');
 
     $router->livewire('settings/security', Security::class)
-        ->middleware(
-            when(
-                Features::canManageTwoFactorAuthentication()
-                && Features::optionEnabled(Features::twoFactorAuthentication(), 'confirmPassword'),
-                ['password.confirm'],
-                [],
-            ),
-        )
+        ->middleware([
+            'password.confirm',
+        ])
         ->name('security.edit');
 });
