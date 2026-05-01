@@ -15,6 +15,10 @@ readonly class ValidLocation implements ValidationRule
     /** @param  Closure(string, ?string=): PotentiallyTranslatedString  $fail */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (! is_string($value)) {
+            return;
+        }
+
         try {
             Coordinates::fromString($value);
         } catch (InvalidArgumentException) {

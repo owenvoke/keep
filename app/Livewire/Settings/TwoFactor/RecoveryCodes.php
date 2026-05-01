@@ -45,7 +45,12 @@ class RecoveryCodes extends Component
 
         if ($user->hasEnabledTwoFactorAuthentication() && $user->two_factor_recovery_codes) {
             try {
-                $this->recoveryCodes = json_decode(decrypt($user->two_factor_recovery_codes), true);
+                $json = decrypt($user->two_factor_recovery_codes);
+
+                assert(is_string($json));
+
+                // @phpstan-ignore assign.propertyType
+                $this->recoveryCodes = json_decode($json, true, flags: JSON_THROW_ON_ERROR);
             } catch (Exception) {
                 $this->addError('recoveryCodes', 'Failed to load recovery codes');
 

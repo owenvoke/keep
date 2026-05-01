@@ -119,3 +119,105 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: app/Livewire/Settings/Security.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Cannot access property \$address on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Cannot access property \$lat on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Cannot access property \$lon on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Cannot access property \$place_id on mixed\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$country of method Geocoder\\Model\\AddressBuilder\:\:setCountry\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$locality of method Geocoder\\Model\\AddressBuilder\:\:setLocality\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$postalCode of method Geocoder\\Model\\AddressBuilder\:\:setPostalCode\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$streetName of method Geocoder\\Model\\AddressBuilder\:\:setStreetName\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$streetNumber of method Geocoder\\Model\\AddressBuilder\:\:setStreetNumber\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strtoupper expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$subLocality of method Geocoder\\Model\\AddressBuilder\:\:setSubLocality\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$value of function count expects array\|Countable, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Method App\\Services\\OIDC\\SocialiteProvider\:\:getTokenUrl\(\) should return string but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/OIDC/SocialiteProvider.php
+
+		-
+			message: '#^Parameter \#1 \$string of function rtrim expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/OIDC/SocialiteProvider.php
+
+		-
+			message: '#^Parameter \#1 \$url of method Laravel\\Socialite\\Two\\AbstractProvider\:\:buildAuthUrlFromBase\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/OIDC/SocialiteProvider.php
+
+		-
+			message: '#^Property App\\Services\\OIDC\\SocialiteProvider\:\:\$configuration \(array\<string, mixed\>\|null\) does not accept mixed\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: app/Services/OIDC/SocialiteProvider.php

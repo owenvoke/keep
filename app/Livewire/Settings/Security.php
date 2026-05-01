@@ -118,8 +118,12 @@ class Security extends Component
         $user = auth()->user();
 
         try {
+            $setupKey = decrypt($user->two_factor_secret);
+
+            assert(is_string($setupKey));
+
             $this->qrCodeSvg = $user?->twoFactorQrCodeSvg();
-            $this->manualSetupKey = decrypt($user->two_factor_secret);
+            $this->manualSetupKey = $setupKey;
         } catch (Exception) {
             $this->addError('setupData', 'Failed to fetch setup data.');
 
