@@ -38,7 +38,9 @@ class Manage extends Component
 
     public function render(): View
     {
-        return view('livewire.pages.visit.manage');
+        // @phpstan-ignore return.type
+        return view('livewire.pages.visit.manage')
+            ->title("Manage visit to {$this->keep->name}");
     }
 
     public function save(): void

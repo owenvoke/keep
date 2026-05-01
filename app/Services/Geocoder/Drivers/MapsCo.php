@@ -68,7 +68,7 @@ class MapsCo extends AbstractHttpProvider implements Provider
         $json = $this->validateResponse($url, $content);
 
         // No result
-        if (! isset($json) || ! count($json)) {
+        if (! count($json)) {
             return new AddressCollection([]);
         }
 
@@ -96,12 +96,12 @@ class MapsCo extends AbstractHttpProvider implements Provider
         return new AddressCollection($results);
     }
 
-    private function validateResponse(string $url, string $content): mixed
+    private function validateResponse(string $url, string $content): array
     {
-        $json = json_decode($content);
+        $json = json_decode($content, true, flags: JSON_THROW_ON_ERROR);
 
         // API error
-        if (! isset($json)) {
+        if (! is_array($json)) {
             throw InvalidServerResponse::create($url);
         }
 

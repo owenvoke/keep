@@ -14,6 +14,8 @@ class Show extends Component
 
     public function render(): View
     {
-        return view('livewire.pages.visit.show');
+        // @phpstan-ignore return.type
+        return view('livewire.pages.visit.show')
+            ->title("Visit to {$this->visit->keep->name} by {$this->visit->user->name}");
     }
 }

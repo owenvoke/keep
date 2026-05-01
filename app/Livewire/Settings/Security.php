@@ -75,6 +75,7 @@ class Security extends Component
     public function updatePassword(): void
     {
         try {
+            /** @var array{password: string, current_password: string} $validated */
             $validated = $this->validate([
                 'current_password' => $this->currentPasswordRules(),
                 'password' => $this->passwordRules(),

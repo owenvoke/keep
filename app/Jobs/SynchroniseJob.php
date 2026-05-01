@@ -28,7 +28,7 @@ class SynchroniseJob implements ShouldQueue
             ->map(fn (KeepEntry $keep) => Keep::query()
                 ->updateOrCreate(
                     ['uuid' => $keep->id],
-                    Arr::except($keep->toArray(), 'id')
+                    Arr::except($keep->toArray(), 'id') // @phpstan-ignore argument.type
                 )
             );
     }

@@ -151,7 +151,19 @@ parameters:
 			path: app/Services/Geocoder/Drivers/MapsCo.php
 
 		-
+			message: '#^Method App\\Services\\Geocoder\\Drivers\\MapsCo\:\:validateResponse\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
 			message: '#^Parameter \#1 \$country of method Geocoder\\Model\\AddressBuilder\:\:setCountry\(\) expects string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#1 \$latitude of method Geocoder\\Model\\AddressBuilder\:\:setCoordinates\(\) expects float, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Services/Geocoder/Drivers/MapsCo.php
@@ -193,7 +205,13 @@ parameters:
 			path: app/Services/Geocoder/Drivers/MapsCo.php
 
 		-
-			message: '#^Parameter \#1 \$value of function count expects array\|Countable, mixed given\.$#'
+			message: '#^Parameter \#2 \$longitude of method Geocoder\\Model\\AddressBuilder\:\:setCoordinates\(\) expects float, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Geocoder/Drivers/MapsCo.php
+
+		-
+			message: '#^Parameter \#2 \$type of method App\\Services\\Geocoder\\Drivers\\MapsCo\:\:updateAddressComponent\(\) expects string, mixed given\.$#'
 			identifier: argument.type
 			count: 1
 			path: app/Services/Geocoder/Drivers/MapsCo.php
