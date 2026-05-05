@@ -16,10 +16,12 @@ class SyncCommand extends Command
 {
     public function handle(): void
     {
+        $this->components->info('Synchronising Keep data from the external API.');
+
         SynchroniseJob::dispatchSync();
 
         CacheCountriesWithKeepsJob::dispatchSync();
 
-        $this->components->info('Keep data has been synced.');
+        $this->components->info('Keep data has been synchronised.');
     }
 }
