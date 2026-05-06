@@ -24,7 +24,8 @@ class Index extends Component
     #[Url]
     public string $sortBy = 'visited_at';
 
-    #[Url]
+    /** @var 'asc'|'desc' */
+    #[Url, Validate('in:asc,desc')]
     public string $sortDirection = 'desc';
 
     #[Url]

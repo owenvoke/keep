@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -27,7 +28,8 @@ class Index extends Component
     #[Url]
     public string $sortBy = 'name';
 
-    #[Url]
+    /** @var 'asc'|'desc' */
+    #[Url, Validate('in:asc,desc')]
     public string $sortDirection = 'asc';
 
     #[Url]
