@@ -45,15 +45,13 @@ test('map page can filter by folly setting', function () {
         'settings->hideFollies' => true,
     ]);
 
-    $realKeep = KeepFactory::new()->create([
+    $realKeep = KeepFactory::new()->withCoordinates(new Coordinates(54.12, -2.89))->create([
         'name' => 'Visible Map Keep',
-        'coordinates' => new Coordinates(54.12, -2.89),
         'type' => Type::Palace,
     ]);
 
-    $follyKeep = KeepFactory::new()->create([
+    $follyKeep = KeepFactory::new()->withCoordinates(new Coordinates(54.06, -2.88))->create([
         'name' => 'Hidden Map Folly',
-        'coordinates' => new Coordinates(54.06, -2.88),
         'type' => Type::Folly,
     ]);
 

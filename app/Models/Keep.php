@@ -10,8 +10,10 @@ use App\Enums\Country;
 use App\Enums\Region;
 use App\Enums\Type;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsUri;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,7 +25,8 @@ use Illuminate\Support\Uri;
  * @property string $name
  * @property Country $country
  * @property Region|null $region
- * @property Coordinates $coordinates
+ * @property float $latitude
+ * @property float $longitude
  * @property string $built
  * @property Condition $condition
  * @property string $owned_by
@@ -35,6 +38,7 @@ use Illuminate\Support\Uri;
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
  * @property-read Collection<int, Visit> $visits
+ * @property-read Coordinates $coordinates
  *
  * @method Builder<self> nearestTo(Coordinates $coordinates, int $distance = 25, int $limit = 50, bool $includeZero = false)
  */
@@ -58,7 +62,8 @@ class Keep extends Model
             'accessible' => 'boolean',
             'alternative_names' => 'collection',
             'condition' => Condition::class,
-            'coordinates' => Coordinates::class,
+            'latitude' => 'float',
+            'longitude' => 'float',
             'country' => Country::class,
             'homepage' => AsUri::class,
             'region' => Region::class,
@@ -71,38 +76,6 @@ class Keep extends Model
     {
         return $this->hasMany(Visit::class)
             ->orderByDesc('visited_at');
-    }
-
-    /**
-     * @param  Builder<self>  $query
-     * @return Builder<self>
-     */
-    public function scopeNearestTo(
-        Builder $query,
-        Coordinates $coordinates,
-        int $distance = 25,
-        bool $includeZero = false
-    ): Builder {
-        return $query
-            ->select()
-            ->selectRaw("ROUND(
-                ? * ACOS(
-                    COS(RADIANS(?))
-                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.latitude')))
-                    * COS(RADIANS(JSON_EXTRACT(coordinates, '$.longitude')) - RADIANS(?))
-                    + SIN(RADIANS(?))
-                    * SIN(RADIANS(JSON_EXTRACT(coordinates, '$.latitude')))
-                ), 2
-            ) AS distance", [
-                6371, // Radius of Earth in kilometers
-                $coordinates->latitude,
-                $coordinates->longitude,
-                $coordinates->latitude,
-            ])
-            ->when($includeZero === false, fn (Builder $query) => $query->where('distance', '!=', 0))
-            ->groupBy('distance')
-            ->having('distance', '<=', $distance)
-            ->orderBy('distance');
     }
 
     public function visitedBy(User $user): bool
@@ -118,8 +91,8 @@ class Keep extends Model
         assert($user !== null);
 
         return [
-            'longitude' => $this->coordinates->longitude,
-            'latitude' => $this->coordinates->latitude,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
             'name' => $this->name,
             'built' => $this->built,
             'type' => $this->type->label(),
@@ -127,5 +100,44 @@ class Keep extends Model
             'url' => route('keep.show', ['keep' => $this]),
             'color' => $this->visitedBy($user) ? 'green' : '#bbb',
         ];
+    }
+
+    /** @return Attribute<Coordinates, never> */
+    protected function coordinates(): Attribute
+    {
+        return Attribute::get(fn () => new Coordinates($this->latitude, $this->longitude));
+    }
+
+    /**
+     * @param  Builder<self>  $query
+     * @return Builder<self>
+     */
+    #[Scope]
+    protected function nearestTo(
+        Builder $query,
+        Coordinates $coordinates,
+        int $distance = 25,
+        bool $includeZero = false
+    ): Builder {
+        return $query
+            ->select()
+            ->selectRaw('ROUND(
+                ? * ACOS(
+                    COS(RADIANS(?))
+                    * COS(RADIANS(latitude))
+                    * COS(RADIANS(longitude) - RADIANS(?))
+                    + SIN(RADIANS(?))
+                    * SIN(RADIANS(latitude))
+                ), 2
+            ) AS distance', [
+                6371, // Radius of Earth in kilometers
+                $coordinates->latitude,
+                $coordinates->longitude,
+                $coordinates->latitude,
+            ])
+            ->when($includeZero === false, fn (Builder $query) => $query->where('distance', '!=', 0))
+            ->groupBy('distance')
+            ->having('distance', '<=', $distance)
+            ->orderBy('distance');
     }
 }

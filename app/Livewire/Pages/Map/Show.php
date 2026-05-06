@@ -67,7 +67,7 @@ class Show extends Component
             return EloquentCollection::make();
         }
 
-        return Keep::nearestTo(
+        return Keep::query()->nearestTo(
             coordinates: $coordinates,
             distance: $this->distance,
             includeZero: true

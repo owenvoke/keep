@@ -29,4 +29,13 @@ class KeepEntry extends Data
         public string|null $homepage = null,
         public Region|null $region = null,
     ) {}
+
+    /** @return array<string, mixed> */
+    public function with(): array
+    {
+        return [
+            'latitude' => $this->coordinates->latitude,
+            'longitude' => $this->coordinates->longitude,
+        ];
+    }
 }
