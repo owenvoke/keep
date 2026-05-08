@@ -10,13 +10,13 @@ use Spatie\LaravelData\Data;
 class Settings extends Data
 {
     public function __construct(
-        #[MapName('public_visits')]
-        public bool $publicVisits = true,
         #[MapName('hide_follies')]
         public bool $hideFollies = false,
         #[MapName('hide_fortified_manor_houses')]
         public bool $hideFortifiedManorHouses = false,
         #[MapName('hide_tower_houses')]
         public bool $hideTowerHouses = false,
+        #[MapName('public_visits')]
+        public bool $publicVisits = true,
     ) {}
 }

@@ -54,3 +54,43 @@ test('visit index can set the selected user from a visit row', function () {
         ->assertSet('allUsers', false)
         ->assertSet('user', $anotherUser->id);
 });
+
+test('private visits are not visible to non-owners', function () {
+    $owner = User::factory()->create();
+    $visitor = User::factory()->create();
+    $keep = KeepFactory::new()->create(['name' => 'Private Keep']);
+
+    VisitFactory::new()->for($keep)->for($owner)->public(false)->create();
+
+    $this->actingAs($visitor);
+
+    Livewire::test(VisitIndex::class)
+        ->set('allUsers', true)
+        ->assertDontSee($keep->name);
+});
+
+test('private visits are visible to the owner', function () {
+    $owner = User::factory()->create();
+    $keep = KeepFactory::new()->create(['name' => 'Private Keep']);
+
+    VisitFactory::new()->for($keep)->for($owner)->public(false)->create();
+
+    $this->actingAs($owner);
+
+    Livewire::test(VisitIndex::class)
+        ->assertSee($keep->name);
+});
+
+test('public visits are visible to all users', function () {
+    $owner = User::factory()->create();
+    $visitor = User::factory()->create();
+    $keep = KeepFactory::new()->create(['name' => 'Public Keep']);
+
+    VisitFactory::new()->for($keep)->for($owner)->public(true)->create();
+
+    $this->actingAs($visitor);
+
+    Livewire::test(VisitIndex::class)
+        ->set('allUsers', true)
+        ->assertSee($keep->name);
+});
