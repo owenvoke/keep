@@ -70,6 +70,7 @@ class Index extends Component
     public function visits(): LengthAwarePaginator
     {
         return Visit::query()
+            ->where(fn (Builder $query) => $query->where('is_public', true)->orWhere('user_id', auth()->id()))
             ->tap(fn (Builder $query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->tap(fn (Builder $query) => ! $this->allUsers && $this->user ? $query->where('user_id', $this->user) : $query)
             ->tap(fn (Builder $query) => $this->search ? $query->whereHas('keep', fn (Builder $query) => $query->whereLike('name', "%{$this->search}%")) : $query)

@@ -18,6 +18,14 @@ class VisitFactory extends Factory
             'user_id' => UserFactory::new(),
             'comment' => $this->faker->sentence(),
             'visited_at' => $this->faker->dateTimeBetween('-1 year'),
+            'is_public' => false,
         ];
+    }
+
+    public function public(bool $public = true): self
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_public' => $public,
+        ]);
     }
 }

@@ -63,7 +63,10 @@
             wire:model="comment"
         />
 
-        <div class="flex flex-auto flex-row justify-end">
+        <div class="flex flex-auto flex-row justify-end space-x-4">
+            <div class="flex flex-col justify-center">
+                <flux:checkbox :label="__('Public')" wire:model="public" />
+            </div>
             <flux:button
                 variant="primary"
                 wire:click="save"

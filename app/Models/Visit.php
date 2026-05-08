@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $uuid
  * @property string $keep_uuid
  * @property int $user_id
+ * @property bool $is_public
  * @property string $comment
  * @property CarbonImmutable $visited_at
  * @property CarbonImmutable|null $created_at
@@ -39,6 +40,7 @@ class Visit extends Model
         return [
             'user_id' => 'int',
             'visited_at' => 'datetime',
+            'is_public' => 'boolean',
         ];
     }
 

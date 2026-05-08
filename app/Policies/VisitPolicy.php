@@ -9,6 +9,12 @@ use App\Models\Visit;
 
 class VisitPolicy
 {
+    public function view(User|null $user, Visit $visit): bool
+    {
+        return $visit->is_public
+            || $user?->id === $visit->user_id;
+    }
+
     public function update(User $user, Visit $visit): bool
     {
         return $user->id === $visit->user_id;

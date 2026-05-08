@@ -20,6 +20,14 @@
             </flux:text>
             <flux:text size="sm" inline>{{ $this->visit->user->name }}</flux:text>
         </flux:heading>
+        @if($this->visit->user_id === auth()->id())
+            <flux:heading level="4" class="flex flex-row space-x-1 items-center-safe font-mono">
+                <flux:text inline>
+                    <flux:icon :name="$this->visit->is_public ? 'eye' : 'eye-slash'" class="size-5 inline" />
+                </flux:text>
+                <flux:text size="sm" inline>{{ $this->visit->is_public ? __('Public – This visit is visible to all users.') : __('Private – This visit is only visible to you.') }}</flux:text>
+            </flux:heading>
+        @endif
     </div>
 
     <flux:separator variant="subtle" class="my-6"/>

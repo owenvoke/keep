@@ -26,10 +26,14 @@ class Manage extends Component
     #[Validate('date_format:Y-m-d\TH:i'), Validate('before_or_equal:now')]
     public $visited = null;
 
+    #[Validate('bool')]
+    public bool $public = false;
+
     public function mount(): void
     {
         $this->comment = $this->visit->comment ?? '';
         $this->visited = $this->visit?->visited_at->isoFormat('YYYY-MM-DDTHH:mm');
+        $this->public = $this->visit->is_public ?? false;
 
         if ($this->visit) {
             $this->authorize('update', $this->visit);
@@ -53,6 +57,7 @@ class Manage extends Component
             $this->visit->update([
                 'comment' => $this->comment,
                 'visited_at' => $this->visited,
+                'is_public' => $this->public,
             ]);
 
             Flux::toast(__('Your visit has been saved.'));
@@ -65,6 +70,7 @@ class Manage extends Component
             'user_id' => auth()->id(),
             'comment' => $this->comment,
             'visited_at' => $this->visited,
+            'is_public' => $this->public,
         ]);
 
         $this->congratulateUser();

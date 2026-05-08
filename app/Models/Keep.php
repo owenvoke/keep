@@ -75,6 +75,7 @@ class Keep extends Model
     public function visits(): HasMany
     {
         return $this->hasMany(Visit::class)
+            ->where(fn (Builder $query) => $query->where('is_public', true)->orWhere('user_id', auth()->id()))
             ->orderByDesc('visited_at');
     }
 
