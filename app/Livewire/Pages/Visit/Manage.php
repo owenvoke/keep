@@ -31,9 +31,13 @@ class Manage extends Component
 
     public function mount(): void
     {
+        $user = auth()->user();
+
+        assert($user !== null);
+
         $this->comment = $this->visit->comment ?? '';
         $this->visited = $this->visit?->visited_at->isoFormat('YYYY-MM-DDTHH:mm');
-        $this->public = $this->visit->is_public ?? false;
+        $this->public = $this->visit->is_public ?? $user->settings->publicVisits;
 
         if ($this->visit) {
             $this->authorize('update', $this->visit);

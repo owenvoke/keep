@@ -23,6 +23,7 @@ use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 /**
+ * @property int $id
  * @property string $name
  * @property string $email
  * @property string $password

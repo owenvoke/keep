@@ -39,7 +39,11 @@ class Index extends Component
 
     public function mount(): void
     {
-        $this->user ??= (int) auth()->id();
+        $user = auth()->user();
+
+        assert($user !== null);
+
+        $this->user ??= $user->id;
     }
 
     public function render(): View

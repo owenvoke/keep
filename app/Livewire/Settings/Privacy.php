@@ -12,20 +12,14 @@ use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-#[Title('Filters')]
-class Filters extends Component
+#[Title('Privacy')]
+class Privacy extends Component
 {
     #[Locked]
     public User $user;
 
     #[Validate('boolean')]
-    public bool $hideFollies;
-
-    #[Validate('boolean')]
-    public bool $hideFortifiedManorHouses;
-
-    #[Validate('boolean')]
-    public bool $hideTowerHouses;
+    public bool $publicVisits;
 
     public function mount(): void
     {
@@ -35,18 +29,14 @@ class Filters extends Component
 
         $this->user = $user;
 
-        $this->hideFollies = $user->settings->hideFollies;
-        $this->hideFortifiedManorHouses = $user->settings->hideFortifiedManorHouses;
-        $this->hideTowerHouses = $user->settings->hideTowerHouses;
+        $this->publicVisits = $user->settings->publicVisits;
     }
 
     public function updateSettings(): void
     {
         $this->validate();
 
-        $this->user->settings->hideFollies = $this->hideFollies;
-        $this->user->settings->hideFortifiedManorHouses = $this->hideFortifiedManorHouses;
-        $this->user->settings->hideTowerHouses = $this->hideTowerHouses;
+        $this->user->settings->publicVisits = $this->publicVisits;
 
         $this->user->update([
             'settings' => $this->user->settings,
