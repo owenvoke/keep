@@ -87,23 +87,25 @@
                 <flux:table.row :key="$keep->uuid">
                     <flux:table.cell>
                         @if(auth()->user()->hasVisited($keep))
-                            <flux:text color="green" class="ml-4"
-                                       :title="__(':type (Visited)', ['type' => $keep->type->label()])">
-                                <flux:icon.check-circle/>
-                            </flux:text>
+                            <flux:tooltip :content="__(':type (Visited)', ['type' => $keep->type->label()])">
+                                <flux:text color="green" class="ml-4">
+                                    <flux:icon.check-circle/>
+                                </flux:text>
+                            </flux:tooltip>
                         @else
-                            <flux:text class="ml-4" :color="$keep->type === App\Enums\Type::Folly ? 'amber' : null"
-                                       :title="$keep->type->label()">
-                                @if ($keep->type === App\Enums\Type::Palace)
-                                    <flux:icon.castle/>
-                                @else
-                                    <flux:icon.chess-rook/>
-                                @endif
-                            </flux:text>
+                            <flux:tooltip :content="$keep->type->label()">
+                                <flux:text class="ml-4" :color="$keep->type === App\Enums\Type::Folly ? 'amber' : null">
+                                    @if ($keep->type === App\Enums\Type::Palace)
+                                        <flux:icon.castle/>
+                                    @else
+                                        <flux:icon.chess-rook/>
+                                    @endif
+                                </flux:text>
+                            </flux:tooltip>
                         @endif
                     </flux:table.cell>
                     <flux:table.cell class="flex items-center gap-3">
-                        <flux:link href="{{ route('keep.show', $keep->uuid) }}">{{ $keep->name }}</flux:link>
+                        <flux:link :href="route('keep.show', $keep->uuid)">{{ $keep->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ __($keep->country->label()) }}</flux:table.cell>
                     @if($this->country?->regions())
@@ -112,7 +114,7 @@
                     <flux:table.cell class="whitespace-nowrap">{{ $keep->type->label() }}</flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ $keep->built }}</flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <flux:link href="{{ $keep->coordinates->link() }}" external>{{ $keep->coordinates }}</flux:link>
+                        <flux:link :href="$keep->coordinates->link()" external>{{ $keep->coordinates }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ $keep->owned_by }}</flux:table.cell>
                 </flux:table.row>

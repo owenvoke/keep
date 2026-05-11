@@ -1,14 +1,15 @@
 <div>
     <div class="relative mb-6 w-full">
         <flux:heading size="xl" level="1" class="mb-6">{{ __('Visits') }}</flux:heading>
-        <flux:separator variant="subtle" />
+        <flux:separator variant="subtle"/>
     </div>
 
     <flux:container class="flex flex-auto flex-wrap sm:flex-nowrap space-x-4 space-y-4 mb-4">
-        <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search by Keep...')" icon="magnifying-glass" />
+        <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search by Keep...')"
+                    icon="magnifying-glass"/>
         <div class="flex flex-auto w-min flex-col justify-center">
             <flux:field class="mb-4" variant="inline">
-                <flux:checkbox wire:model.live.debounce="allUsers" />
+                <flux:checkbox wire:model.live.debounce="allUsers"/>
                 <flux:label class="text-nowrap">{{ __('All Users') }}</flux:label>
             </flux:field>
         </div>
@@ -33,25 +34,29 @@
                 @php /** @var App\Models\Visit $visit */ @endphp
                 <flux:table.row :key="$visit->uuid">
                     <flux:table.cell class="w-min">
-                        <flux:link
-                            title="{{ $visit->uuid }}"
-                            href="{{ route('visit.show', $visit->uuid) }}">{{ Illuminate\Support\Str::substr($visit->uuid, -12) }}</flux:link>
+                        <flux:tooltip :content="$visit->uuid">
+                            <flux:link
+                                :href="route('visit.show', $visit->uuid)">{{ Illuminate\Support\Str::substr($visit->uuid, -12) }}</flux:link>
+                        </flux:tooltip>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <flux:link
-                            href="{{ route('keep.show', $visit->keep->uuid) }}">{{ $visit->keep->name }}</flux:link>
+                            :href="route('keep.show', $visit->keep->uuid)">{{ $visit->keep->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <time datetime="{{ $visit->visited_at->toIso8601String() }}" title="{{ $visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->visited_at->diffForHumans() }}</time>
+                        <time datetime="{{ $visit->visited_at->toIso8601String() }}"
+                              title="{{ $visit->visited_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->visited_at->diffForHumans() }}</time>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <flux:text>{{ Illuminate\Support\Str::limit($visit->comment) }}</flux:text>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <flux:link class="cursor-pointer" wire:click="filterUserFromVisit('{{ $visit->uuid }}')">{{ $visit->user->name }}</flux:link>
+                        <flux:link class="cursor-pointer"
+                                   wire:click="filterUserFromVisit('{{ $visit->uuid }}')">{{ $visit->user->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <time datetime="{{ $visit->updated_at->toIso8601String() }}" title="{{ $visit->updated_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->updated_at->diffForHumans() }}</time>
+                        <time datetime="{{ $visit->updated_at->toIso8601String() }}"
+                              title="{{ $visit->updated_at->isoFormat(App\Utils\DateFormat::STANDARD) }}">{{ $visit->updated_at->diffForHumans() }}</time>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
