@@ -4,14 +4,14 @@
         <flux:separator variant="subtle"/>
     </div>
 
-    <div class="flex flex-auto flex-row justify-end mb-6">
-        <div class="flex flex-col justify-center mr-2">
+    <div class="flex flex-auto flex-row justify-end mb-6 gap-2">
+        <div class="flex flex-col justify-center">
             <flux:badge size="sm" color="teal">
                 <span>{{ trans_choice(':count total visit|:count total visits', $this->keep->visits->count()) }}</span>
             </flux:badge>
         </div>
         @if(auth()->user()->hasVisited($keep))
-            <div class="flex flex-col justify-center mr-2">
+            <div class="flex flex-col justify-center">
                 <flux:text color="green" class="align-middle"
                            :title="__('You have already registered a visit to this keep.')">
                     <flux:icon.check-circle/>
@@ -21,6 +21,9 @@
         <flux:link :href="route('visit.manage', ['keep' => $this->keep])" wire:navigate>
             <flux:button variant="outline">{{ __('Register visit') }}</flux:button>
         </flux:link>
+        <flux:modal.trigger name="collect-modal" shortcut="cmd.c">
+            <flux:button variant="outline">{{ __('Collect') }}</flux:button>
+        </flux:modal.trigger>
     </div>
 
     @if($this->keep->accessible === false)
@@ -145,6 +148,12 @@
                 :label="$this->keep->name"
                 :primary-keep="$this->keep"
                 :keeps="$this->keep->nearestTo($this->keep->coordinates)->get()"/>
+        </div>
+    </flux:modal>
+
+    <flux:modal name="collect-modal" class="w-sm sm:w-md md:w-lg lg:w-xl" variant="floating">
+        <div class="mt-8">
+            <livewire:collect-keep :keep="$this->keep"/>
         </div>
     </flux:modal>
 

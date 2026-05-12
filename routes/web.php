@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Auth\OIDCController;
+use App\Livewire\Pages\Collection\Index as CollectionIndex;
+use App\Livewire\Pages\Collection\Manage as CollectionManage;
+use App\Livewire\Pages\Collection\Show as CollectionShow;
 use App\Livewire\Pages\Keep\Index as KeepIndex;
 use App\Livewire\Pages\Keep\Show as KeepShow;
 use App\Livewire\Pages\Map\Show as MapShow;
@@ -20,6 +23,9 @@ $router->middleware(['auth', 'verified'])->group(function (Router $router) {
     $router->livewire('/keeps/{keep}/visit/{visit?}', VisitManage::class)->name('visit.manage');
     $router->livewire('/visits', VisitIndex::class)->name('visit.index');
     $router->livewire('/visits/{visit}', VisitShow::class)->name('visit.show');
+    $router->livewire('/collections', CollectionIndex::class)->name('collection.index');
+    $router->livewire('/collections/manage/{collection?}', CollectionManage::class)->name('collection.manage');
+    $router->livewire('/collections/{collection}', CollectionShow::class)->name('collection.show');
     $router->livewire('/map', MapShow::class)->name('map');
 
     require __DIR__.'/settings.php';

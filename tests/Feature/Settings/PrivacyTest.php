@@ -43,3 +43,31 @@ test('public visits setting can be set to false', function () {
 
     expect($user->refresh()->settings->publicVisits)->toBeFalse();
 });
+
+test('public collections setting can be set to true', function () {
+    $user = User::factory()->withSettings(new Settings(publicCollections: false))->create();
+
+    $this->actingAs($user);
+
+    $response = Livewire::test(Privacy::class)
+        ->set('publicCollections', true)
+        ->call('updateSettings');
+
+    $response->assertHasNoErrors();
+
+    expect($user->refresh()->settings->publicCollections)->toBeTrue();
+});
+
+test('public collections setting can be set to false', function () {
+    $user = User::factory()->withSettings(new Settings(publicCollections: true))->create();
+
+    $this->actingAs($user);
+
+    $response = Livewire::test(Privacy::class)
+        ->set('publicCollections', false)
+        ->call('updateSettings');
+
+    $response->assertHasNoErrors();
+
+    expect($user->refresh()->settings->publicCollections)->toBeFalse();
+});

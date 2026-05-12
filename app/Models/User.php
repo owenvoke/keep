@@ -66,6 +66,12 @@ class User extends Authenticatable implements MustVerifyEmail, PasskeyUser
             ->implode('');
     }
 
+    /** @return HasMany<Collection, $this> */
+    public function collections(): HasMany
+    {
+        return $this->hasMany(Collection::class);
+    }
+
     /** @return HasMany<Visit, $this> */
     public function visits(): HasMany
     {

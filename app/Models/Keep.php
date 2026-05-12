@@ -59,7 +59,7 @@ class Keep extends Model
     protected function casts(): array
     {
         return [
-            'accessible' => 'boolean',
+            'accessible' => 'bool',
             'alternative_names' => 'collection',
             'condition' => Condition::class,
             'latitude' => 'float',

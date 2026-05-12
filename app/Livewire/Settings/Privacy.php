@@ -19,6 +19,9 @@ class Privacy extends Component
     public User $user;
 
     #[Validate('boolean')]
+    public bool $publicCollections;
+
+    #[Validate('boolean')]
     public bool $publicVisits;
 
     public function mount(): void
@@ -29,6 +32,7 @@ class Privacy extends Component
 
         $this->user = $user;
 
+        $this->publicCollections = $user->settings->publicCollections;
         $this->publicVisits = $user->settings->publicVisits;
     }
 
@@ -36,6 +40,7 @@ class Privacy extends Component
     {
         $this->validate();
 
+        $this->user->settings->publicCollections = $this->publicCollections;
         $this->user->settings->publicVisits = $this->publicVisits;
 
         $this->user->update([

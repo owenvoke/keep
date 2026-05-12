@@ -64,7 +64,7 @@ class Manage extends Component
                 'is_public' => $this->public,
             ]);
 
-            Flux::toast(__('Your visit has been saved.'));
+            Flux::toast(__('Your visit has been saved.'), variant: 'success');
 
             return;
         }
@@ -93,11 +93,11 @@ class Manage extends Component
             return;
         }
 
-        $this->authorize('update', $this->visit);
+        $this->authorize('delete', $this->visit);
 
         $this->visit->delete();
 
-        Flux::toast(__('Your visit has been deleted.'));
+        Flux::toast(__('Your visit has been deleted.'), variant: 'success');
 
         $this->redirectRoute('visit.index', navigate: true);
     }

@@ -5,6 +5,9 @@
 
     <x-settings.layout :heading="__('Privacy')" :subheading="__('Update privacy settings for your account')">
         <form wire:submit="updateSettings" class="my-6 w-full space-y-6">
+            <flux:checkbox wire:model.live.debounce="publicCollections"
+                           :label="__('Public collections')"
+                           :description="__('Collections will be publicly visible by default')"/>
                 <flux:checkbox wire:model.live.debounce="publicVisits"
                                :label="__('Public visits')"
                                :description="__('Visits will be publicly visible by default')"/>
