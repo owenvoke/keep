@@ -14,11 +14,11 @@
 
     <flux:container class="flex flex-auto flex-row flex-wrap sm:flex-nowrap gap-2 h-min mb-4">
         <flux:input wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
-        <flux:select wire:model.live="public" wire:change="public = null" class="w-full sm:w-min">
+        <flux:select wire:model.live="privacy" class="w-full sm:w-min">
             <flux:select.option value=""
-                                :selected="$this->public === ''">{{ __('Any privacy') }}</flux:select.option>
-            <flux:select.option :value="true">{{ __('Public') }}</flux:select.option>
-            <flux:select.option :value="false">{{ __('Private') }}</flux:select.option>
+                                :selected="$this->privacy === ''">{{ __('Any privacy') }}</flux:select.option>
+            <flux:select.option :value="App\Enums\Privacy::Public">{{ __('Public') }}</flux:select.option>
+            <flux:select.option :value="App\Enums\Privacy::Private">{{ __('Private') }}</flux:select.option>
         </flux:select>
     </flux:container>
 

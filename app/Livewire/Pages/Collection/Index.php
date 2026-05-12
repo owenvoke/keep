@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Livewire\Pages\Collection;
 
+use App\Enums\Privacy;
 use App\Models\Collection;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
@@ -31,7 +32,7 @@ class Index extends Component
     public string $search = '';
 
     #[Url]
-    public bool|null $public = null;
+    public Privacy|null $privacy = null;
 
     public function render(): View
     {
@@ -56,10 +57,16 @@ class Index extends Component
 
         assert($user !== null);
 
+        $public = match ($this->privacy) {
+            Privacy::Public => true,
+            Privacy::Private => false,
+            default => null,
+        };
+
         return $user->collections()
             ->tap(fn (Builder $query) => $this->sortBy ? $query->orderBy($this->sortBy, $this->sortDirection) : $query)
             ->tap(fn (Builder $query) => $this->search ? $query->whereLike('name', "%{$this->search}%") : $query)
-            ->tap(fn (Builder $query) => $this->public ? $query->where('is_public', $this->public) : $query)
+            ->tap(fn (Builder $query) => $public !== null ? $query->where('is_public', $public) : $query)
             ->paginate(50);
     }
 }
