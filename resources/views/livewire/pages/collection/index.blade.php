@@ -13,8 +13,8 @@
     </div>
 
     <flux:container class="flex flex-auto flex-row flex-wrap sm:flex-nowrap gap-2 h-min mb-4">
-        <flux:input wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
-        <flux:select wire:model.live="privacy" class="w-full sm:w-min">
+        <flux:input wire:model.live.debounce="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
+        <flux:select wire:model.live.debounce="privacy" class="w-full sm:w-min">
             <flux:select.option value=""
                                 :selected="$this->privacy === ''">{{ __('Any privacy') }}</flux:select.option>
             <flux:select.option :value="App\Enums\Privacy::Public">{{ __('Public') }}</flux:select.option>

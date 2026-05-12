@@ -5,7 +5,7 @@
     </div>
 
     <flux:container class="flex flex-auto flex-wrap sm:flex-nowrap space-x-4 space-y-4 mb-4">
-        <flux:input class="mb-4" wire:model.live="search" :placeholder="__('Search by Keep...')"
+        <flux:input class="mb-4" wire:model.live.debounce="search" :placeholder="__('Search by Keep...')"
                     icon="magnifying-glass"/>
         <div class="flex flex-auto w-min flex-col justify-center">
             <flux:field class="mb-4" variant="inline">

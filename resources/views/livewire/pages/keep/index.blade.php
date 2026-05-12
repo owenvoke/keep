@@ -8,12 +8,12 @@
 
     <flux:container class="flex flex-col flex-wrap gap-2 h-min mb-4">
         <div class="space-y-2">
-            <flux:input wire:model.live="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
-            <flux:input wire:model.live="ownedBy" :placeholder="__('Owned by...')" icon="magnifying-glass"/>
+            <flux:input wire:model.live.debounce="search" :placeholder="__('Search...')" icon="magnifying-glass"/>
+            <flux:input wire:model.live.debounce="ownedBy" :placeholder="__('Owned by...')" icon="magnifying-glass"/>
         </div>
         <div class="flex flex-row flex-wrap md:flex-nowrap align-middle gap-2">
             <div class="flex flex-auto flex-row h-min">
-                <flux:select wire:model.live="country" wire:change="region = null">
+                <flux:select wire:model.live.debounce="country" wire:change="region = null">
                     <flux:select.option value=""
                                         :selected="$this->country === ''">{{ __('Any country') }}</flux:select.option>
                     @foreach(App\Enums\Country::casesWithKeeps() as $country)
@@ -22,7 +22,7 @@
                 </flux:select>
             </div>
             <div class="flex flex-auto flex-row h-min">
-                <flux:select wire:model.live="region">
+                <flux:select wire:model.live.debounce="region">
                     <flux:select.option value=""
                                         :selected="$this->region === ''">{{ __('Any region') }}</flux:select.option>
                     @if($this->country?->regions())
@@ -33,14 +33,14 @@
                 </flux:select>
             </div>
             <div class="flex flex-row h-min gap-2">
-                <flux:select wire:model.live="type">
+                <flux:select wire:model.live.debounce="type">
                     <flux:select.option value=""
                                         :selected="$this->type === ''">{{ __('Any type') }}</flux:select.option>
                     @foreach(App\Enums\Type::cases() as $type)
                         <flux:select.option :value="$type->value">{{ __($type->label()) }}</flux:select.option>
                     @endforeach
                 </flux:select>
-                <flux:select wire:model.live="condition">
+                <flux:select wire:model.live.debounce="condition">
                     <flux:select.option value=""
                                         :selected="$this->condition === ''">{{ __('Any condition') }}</flux:select.option>
                     @foreach(App\Enums\Condition::cases() as $condition)
@@ -49,7 +49,7 @@
                     @endforeach
                 </flux:select>
                 <div class="flex flex-col justify-center w-min">
-                    <flux:checkbox class="align-middle" :label="__('Visited')" wire:model.live="onlyVisited"/>
+                    <flux:checkbox class="align-middle" :label="__('Visited')" wire:model.live.debounce="onlyVisited"/>
                 </div>
             </div>
         </div>
