@@ -59,6 +59,7 @@
         <flux:input
             :label="__('Name')"
             wire:model="name"
+            autocomplete="off"
         />
         <flux:textarea
             rows="10"
