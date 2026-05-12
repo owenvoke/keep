@@ -105,7 +105,7 @@
                         @endif
                     </flux:table.cell>
                     <flux:table.cell class="flex items-center gap-3">
-                        <flux:link :href="route('keep.show', $keep->uuid)">{{ $keep->name }}</flux:link>
+                        <flux:link :href="route('keep.show', $keep->uuid)" wire:navigate>{{ $keep->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">{{ __($keep->country->label()) }}</flux:table.cell>
                     @if($this->country?->regions())

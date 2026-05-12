@@ -35,13 +35,13 @@
                 <flux:table.row :key="$visit->uuid">
                     <flux:table.cell class="w-min">
                         <flux:tooltip :content="$visit->uuid">
-                            <flux:link
-                                :href="route('visit.show', $visit->uuid)">{{ Illuminate\Support\Str::substr($visit->uuid, -12) }}</flux:link>
+                            <flux:link :href="route('visit.show', $visit->uuid)"
+                                       wire:navigate>{{ Illuminate\Support\Str::substr($visit->uuid, -12) }}</flux:link>
                         </flux:tooltip>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
-                        <flux:link
-                            :href="route('keep.show', $visit->keep->uuid)">{{ $visit->keep->name }}</flux:link>
+                        <flux:link :href="route('keep.show', $visit->keep->uuid)"
+                                   wire:navigate>{{ $visit->keep->name }}</flux:link>
                     </flux:table.cell>
                     <flux:table.cell class="whitespace-nowrap">
                         <time datetime="{{ $visit->visited_at->toIso8601String() }}"
