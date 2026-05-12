@@ -22,6 +22,7 @@
 
         <flux:table :paginate="$this->keeps">
             <flux:table.columns>
+                <flux:table.column class="w-0"></flux:table.column>
                 <flux:table.column sortable :sorted="$sortBy === 'name'" :direction="$sortDirection"
                                    wire:click="sort('name')">{{ __('Keep') }}
                 </flux:table.column>
@@ -41,6 +42,9 @@
                 @foreach ($this->keeps as $keep)
                     @php /** @var App\Models\Keep $keep */ @endphp
                     <flux:table.row :key="$keep->uuid">
+                        <flux:table.cell>
+                            <x-keeps.visited-indicator :keep="$keep"/>
+                        </flux:table.cell>
                         <flux:table.cell class="whitespace-nowrap">
                             <flux:link :href="route('keep.show', $keep)" wire:navigate>{{ $keep->name }}</flux:link>
                         </flux:table.cell>
