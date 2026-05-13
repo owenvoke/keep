@@ -7,7 +7,6 @@ namespace Database\Factories;
 use App\Models\Collection;
 use App\Models\Keep;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Collection as SupportCollection;
 
 /** @extends Factory<Collection> */
 class CollectionFactory extends Factory
@@ -30,8 +29,7 @@ class CollectionFactory extends Factory
         ]);
     }
 
-    /** @param SupportCollection<int, Keep> $keeps */
-    public function withKeeps(SupportCollection $keeps): self
+    public function withKeeps(Keep ...$keeps): self
     {
         return $this->afterCreating(
             fn (Collection $collection) => $collection->keeps()->attach($keeps)
