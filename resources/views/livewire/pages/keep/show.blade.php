@@ -157,6 +157,16 @@
         </div>
     </flux:modal>
 
+    @if($this->keep->collections->isNotEmpty())
+        <flux:separator variant="subtle" class="my-6"/>
+
+        <div class="flex flex-col gap-4">
+            <flux:heading size="lg" level="3">{{ __('Collections') }}</flux:heading>
+
+            <x-keep.collections-list :keep="$this->keep" :limit="5"/>
+        </div>
+    @endif
+
     @if($this->keep->visits->isNotEmpty())
         <flux:separator variant="subtle" class="my-6"/>
 
@@ -187,7 +197,8 @@
                     </div>
                     <div class="min-h-2 sm:min-h-1"></div>
                     <div class="pl-8">
-                        <flux:text inline>{!! nl2br(e(Illuminate\Support\Str::limit($visit->comment, 200, preserveWords: true))) !!}</flux:text>
+                        <flux:text
+                            inline>{!! nl2br(e(Illuminate\Support\Str::limit($visit->comment, 200, preserveWords: true))) !!}</flux:text>
                         @if(mb_strlen($visit->comment) > 200)
                             <flux:link :href="route('visit.show', ['visit' => $visit])" wire:navigate>
                                 <flux:text inline size="sm">{{ __('Read more') }}</flux:text>

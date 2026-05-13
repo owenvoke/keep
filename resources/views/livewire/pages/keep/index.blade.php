@@ -86,7 +86,7 @@
                 @php /** @var App\Models\Keep $keep */ @endphp
                 <flux:table.row :key="$keep->uuid">
                     <flux:table.cell>
-                        <x-keeps.visited-indicator :keep="$keep"/>
+                        <x-keep.visited-indicator :keep="$keep"/>
                     </flux:table.cell>
                     <flux:table.cell class="flex items-center gap-3">
                         <flux:link :href="route('keep.show', $keep->uuid)" wire:navigate>{{ $keep->name }}</flux:link>

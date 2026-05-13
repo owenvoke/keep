@@ -14,10 +14,12 @@ use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\AsUri;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 use Illuminate\Support\Uri;
 
 /**
@@ -32,12 +34,13 @@ use Illuminate\Support\Uri;
  * @property string $owned_by
  * @property Type $type
  * @property bool $accessible
- * @property Collection<int, string>|null $alternative_names
+ * @property SupportCollection<int, string>|null $alternative_names
  * @property string|null $description
  * @property Uri|null $homepage
  * @property CarbonImmutable|null $created_at
  * @property CarbonImmutable|null $updated_at
- * @property-read Collection<int, Visit> $visits
+ * @property-read EloquentCollection<int, Visit> $visits
+ * @property-read EloquentCollection<int, Collection> $collections
  * @property-read Coordinates $coordinates
  *
  * @method Builder<self> nearestTo(Coordinates $coordinates, int $distance = 25, int $limit = 50, bool $includeZero = false)
@@ -69,6 +72,14 @@ class Keep extends Model
             'region' => Region::class,
             'type' => Type::class,
         ];
+    }
+
+    /** @return BelongsToMany<Collection, $this> */
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class)
+            ->where(fn (Builder $query) => $query->where('is_public', true)->orWhere('user_id', auth()->id()))
+            ->inRandomOrder();
     }
 
     /** @return HasMany<Visit, $this> */

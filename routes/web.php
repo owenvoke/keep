@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\OIDCController;
 use App\Livewire\Pages\Collection\Index as CollectionIndex;
 use App\Livewire\Pages\Collection\Manage as CollectionManage;
 use App\Livewire\Pages\Collection\Show as CollectionShow;
+use App\Livewire\Pages\Keep\Collections as KeepCollections;
 use App\Livewire\Pages\Keep\Index as KeepIndex;
 use App\Livewire\Pages\Keep\Show as KeepShow;
 use App\Livewire\Pages\Map\Show as MapShow;
@@ -20,6 +21,7 @@ use Illuminate\Routing\Router;
 $router->middleware(['auth', 'verified'])->group(function (Router $router) {
     $router->livewire('/', KeepIndex::class)->name('keep.index');
     $router->livewire('/keeps/{keep}', KeepShow::class)->name('keep.show');
+    $router->livewire('/keeps/{keep}/collections', KeepCollections::class)->name('keep.collections');
     $router->livewire('/keeps/{keep}/visit/{visit?}', VisitManage::class)->name('visit.manage');
     $router->livewire('/visits', VisitIndex::class)->name('visit.index');
     $router->livewire('/visits/{visit}', VisitShow::class)->name('visit.show');
