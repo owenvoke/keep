@@ -22,7 +22,9 @@
             <flux:button variant="outline">{{ __('Register visit') }}</flux:button>
         </flux:link>
         <flux:modal.trigger name="collect-modal" shortcut="cmd.c">
-            <flux:button variant="outline">{{ __('Collect') }}</flux:button>
+            <flux:tooltip :content="__('Add this Keep to a collection')">
+                <flux:button icon="plus" variant="outline">{{ __('Collection') }}</flux:button>
+            </flux:tooltip>
         </flux:modal.trigger>
     </div>
 
