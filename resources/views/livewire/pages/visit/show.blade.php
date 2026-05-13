@@ -33,7 +33,7 @@
     <flux:separator variant="subtle" class="my-6"/>
 
     @if($this->visit->user_id === auth()->id())
-        <div class="flex flex-auto flex-row justify-end space-x-4 mb-6">
+        <div class="flex flex-auto flex-row flex-wrap sm:flex-nowrap justify-end mb-6 gap-2">
             <flux:link :href="url()->signedRoute('visit.share', ['visit' => $this->visit])" wire:navigate>
                 <flux:button icon:leading="share" variant="outline">{{ __('Share') }}</flux:button>
             </flux:link>

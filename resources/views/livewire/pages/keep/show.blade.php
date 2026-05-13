@@ -4,7 +4,7 @@
         <flux:separator variant="subtle"/>
     </div>
 
-    <div class="flex flex-auto flex-row justify-end mb-6 gap-2">
+    <div class="flex flex-auto flex-row flex-wrap sm:flex-nowrap justify-end mb-6 gap-2">
         <div class="flex flex-col justify-center">
             <flux:badge size="sm" color="teal">
                 <span>{{ trans_choice(':count total visit|:count total visits', $this->keep->visits->count()) }}</span>
