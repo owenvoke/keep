@@ -27,7 +27,7 @@
         const mapElement = document.getElementById('{{ $id }}')
 
         if (! mapElement.__keepMap) {
-            const map = new maplibregl.Map({
+            const map = new window.maplibregl.Map({
                 container: '{{ $id }}_canvas',
                 style: $flux.dark ? '{{ config('services.map.source.dark') }}' : '{{ config('services.map.source.light') }}',
                 center: @js($centerCoordinates),
@@ -35,7 +35,7 @@
                 attributionControl: false,
             })
 
-            const locator = new maplibregl.GeolocateControl()
+            const locator = new window.maplibregl.GeolocateControl()
             map.addControl(locator)
 
             const popupConfig = {
@@ -76,10 +76,10 @@
             });
 
             @isset($this->primaryKeep)
-            new maplibregl.Marker().setLngLat(
+            new window.maplibregl.Marker().setLngLat(
                 [{{ $this->primaryKeep->coordinates->longitude }}, {{ $this->primaryKeep->coordinates->latitude }}]
             ).setPopup(
-                new maplibregl.Popup(popupConfig).setDOMContent(createMarkerInfo(@js($this->primaryKeep->toJsonMarker())))
+                new window.maplibregl.Popup(popupConfig).setDOMContent(createMarkerInfo(@js($this->primaryKeep->toJsonMarker())))
             ).addTo(map)
             @endisset
 
@@ -99,9 +99,9 @@
                 setKeepMarkers(markers) {
                     this.keepMarkers.forEach((marker) => marker.remove())
                     this.keepMarkers = markers.map((marker) => {
-                        return new maplibregl.Marker({ color: marker.color })
+                        return new window.maplibregl.Marker({ color: marker.color })
                             .setLngLat([marker.longitude, marker.latitude])
-                            .setPopup(new maplibregl.Popup(popupConfig).setDOMContent(createMarkerInfo(marker, true)))
+                            .setPopup(new window.maplibregl.Popup(popupConfig).setDOMContent(createMarkerInfo(marker, true)))
                             .addTo(this.map)
                     })
                 }
