@@ -11,13 +11,15 @@
 <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet"/>
 
 <link rel="preconnect" href="https://unpkg.com">
-<link rel="preload" href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.mjs" as="script"/>
-<link rel="preload" href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" as="style"/>
+<link rel="preload" href="https://unpkg.com/maplibre-gl@^6/dist/maplibre-gl.mjs" as="script"/>
+<link rel="preload" href="https://unpkg.com/maplibre-gl@^6/dist/maplibre-gl.css" as="style"/>
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
 @fluxAppearance
 
 @if(request()->routeIs(['map', 'keep.show']))
-    <script src="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.js"></script>
-    <link href="https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css" rel="stylesheet"/>
+    <script type="module">
+        import * as maplibregl from 'https://unpkg.com/maplibre-gl@^6/dist/maplibre-gl.mjs';
+    </script>
+    <link href="https://unpkg.com/maplibre-gl@^6/dist/maplibre-gl.css" rel="stylesheet"/>
 @endif
