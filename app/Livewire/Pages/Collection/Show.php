@@ -34,7 +34,6 @@ class Show extends Component
     {
         $this->authorize('view', $this->collection);
 
-        // @phpstan-ignore return.type
         return view('livewire.pages.collection.show')
             ->title($this->collection->name);
     }

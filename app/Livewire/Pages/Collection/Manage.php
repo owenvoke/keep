@@ -42,7 +42,6 @@ class Manage extends Component
 
     public function render(): View
     {
-        // @phpstan-ignore return.type
         return view('livewire.pages.collection.manage')
             ->title($this->collection ? "Manage collection named {$this->collection->name}" : 'Manage collection');
     }

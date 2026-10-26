@@ -16,7 +16,6 @@ class Share extends Component
 
     public function render(): View
     {
-        // @phpstan-ignore return.type
         return view('livewire.pages.visit.share')
             ->title("{$this->visit->keep->name} by {$this->visit->user->name}");
     }

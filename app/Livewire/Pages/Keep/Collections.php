@@ -14,7 +14,6 @@ class Collections extends Component
 
     public function render(): View
     {
-        // @phpstan-ignore return.type
         return view('livewire.pages.keep.collections')
             ->title("Collections for {$this->keep->name}");
     }

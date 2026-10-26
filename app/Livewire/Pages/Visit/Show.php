@@ -16,7 +16,6 @@ class Show extends Component
     {
         $this->authorize('view', $this->visit);
 
-        // @phpstan-ignore return.type
         return view('livewire.pages.visit.show')
             ->title("Visit to {$this->visit->keep->name} by {$this->visit->user->name}");
     }
